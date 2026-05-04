@@ -21,7 +21,7 @@
         
         <div x-data="{ mobileMenuOpen: false, scrolled: false }" @scroll.window="scrolled = window.scrollY > 40" class="relative">
             <!-- Top Bar -->
-            @if($sectionSettings['header']->is_visible)
+            @if($sectionSettings->get('header')?->is_visible ?? true)
             <div class="bg-slate-900 text-white/80 text-xs hidden lg:block border-b border-white/5">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between">
                     <div class="flex items-center gap-8">
@@ -59,7 +59,7 @@
                         <a href="{{ route('home') }}" class="{{ Request::is('/') ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400' }} font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
                         <a href="{{ route('about') }}" class="{{ Request::is('about') ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400' }} font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
                         
-                        @if($sectionSettings['services']->is_visible)
+                        @if($sectionSettings->get('services')?->is_visible ?? true)
                         <div x-data="{ serviceOpen: false }" @mouseenter="serviceOpen = true" @mouseleave="serviceOpen = false" class="relative">
                             <a href="{{ Request::is('/') ? '#services' : route('home').'#services' }}" class="{{ Request::is('services/*') ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400' }} font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition flex items-center gap-1">
                                 Services 
@@ -77,19 +77,19 @@
                         </div>
                         @endif
 
-                        @if($sectionSettings['portfolio']->is_visible)
+                        @if($sectionSettings->get('portfolio')?->is_visible ?? true)
                         <a href="{{ Request::is('/') ? '#portfolio' : route('home').'#portfolio' }}" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">Portfolio</a>
                         @endif
 
-                        @if($sectionSettings['team']->is_visible)
+                        @if($sectionSettings->get('team')?->is_visible ?? true)
                         <a href="{{ Request::is('/') ? '#team' : route('home').'#team' }}" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">Team</a>
                         @endif
 
-                        @if($sectionSettings['reviews']->is_visible)
+                        @if($sectionSettings->get('reviews')?->is_visible ?? true)
                         <a href="{{ Request::is('/') ? '#reviews' : route('home').'#reviews' }}" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">Testimonials</a>
                         @endif
 
-                        @if($sectionSettings['events']->is_visible)
+                        @if($sectionSettings->get('events')?->is_visible ?? true)
                         <a href="{{ Request::is('/') ? '#events' : route('home').'#events' }}" class="{{ Request::is('event/*') ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400' }} font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">Events</a>
                         @endif
                         <a href="{{ route('contact.page') }}" class="{{ Request::is('contact') ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400' }} font-semibold text-sm hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
@@ -124,11 +124,11 @@
                         </div>
                         <a href="{{ route('home') }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Home</a>
                         <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">About</a>
-                        @if($sectionSettings['services']->is_visible) <a href="{{ Request::is('/') ? '#services' : route('home').'#services' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Services</a> @endif
-                        @if($sectionSettings['portfolio']->is_visible) <a href="{{ Request::is('/') ? '#portfolio' : route('home').'#portfolio' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Portfolio</a> @endif
-                        @if($sectionSettings['team']->is_visible) <a href="{{ Request::is('/') ? '#team' : route('home').'#team' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Team</a> @endif
-                        @if($sectionSettings['reviews']->is_visible) <a href="{{ Request::is('/') ? '#reviews' : route('home').'#reviews' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Testimonials</a> @endif
-                        @if($sectionSettings['events']->is_visible) <a href="{{ Request::is('/') ? '#events' : route('home').'#events' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Events</a> @endif
+                        @if($sectionSettings->get('services')?->is_visible ?? true) <a href="{{ Request::is('/') ? '#services' : route('home').'#services' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Services</a> @endif
+                        @if($sectionSettings->get('portfolio')?->is_visible ?? true) <a href="{{ Request::is('/') ? '#portfolio' : route('home').'#portfolio' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Portfolio</a> @endif
+                        @if($sectionSettings->get('team')?->is_visible ?? true) <a href="{{ Request::is('/') ? '#team' : route('home').'#team' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Team</a> @endif
+                        @if($sectionSettings->get('reviews')?->is_visible ?? true) <a href="{{ Request::is('/') ? '#reviews' : route('home').'#reviews' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Testimonials</a> @endif
+                        @if($sectionSettings->get('events')?->is_visible ?? true) <a href="{{ Request::is('/') ? '#events' : route('home').'#events' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Events</a> @endif
                         <a href="{{ route('contact.page') }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Contact</a>
                     </div>
                 </div>
@@ -139,8 +139,8 @@
             </main>
 
             <!-- Footer -->
-            @if($sectionSettings['footer']->is_visible)
-            <footer class="bg-slate-900 text-slate-300 py-20 border-t border-white/5">
+            @if($sectionSettings->get('footer')?->is_visible ?? true)
+            <footer class="bg-slate-900 dark:bg-black text-slate-300 py-20 border-t border-white/5 transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                         <div class="col-span-1 lg:col-span-1">
@@ -164,15 +164,15 @@
                                 <ul class="space-y-4">
                                     <li><a href="{{ route('home') }}" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Home</a></li>
                                     <li><a href="{{ route('about') }}" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> About Us</a></li>
-                                    @if($sectionSettings['services']->is_visible) <li><a href="{{ route('home') }}#services" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Services</a></li> @endif
-                                    @if($sectionSettings['portfolio']->is_visible) <li><a href="{{ route('home') }}#portfolio" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Portfolio</a></li> @endif
-                                    @if($sectionSettings['team']->is_visible) <li><a href="{{ route('home') }}#team" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Our Team</a></li> @endif
+                                    @if($sectionSettings->get('services')?->is_visible ?? true) <li><a href="{{ route('home') }}#services" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Services</a></li> @endif
+                                    @if($sectionSettings->get('portfolio')?->is_visible ?? true) <li><a href="{{ route('home') }}#portfolio" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Portfolio</a></li> @endif
+                                    @if($sectionSettings->get('team')?->is_visible ?? true) <li><a href="{{ route('home') }}#team" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> Our Team</a></li> @endif
                                 </ul>
                             </div>
                             <div>
                                 <h4 class="text-white text-lg font-bold mb-6">Our Services</h4>
                                 <ul class="space-y-4">
-                                    @if($sectionSettings['services']->is_visible)
+                                    @if($sectionSettings->get('services')?->is_visible ?? true)
                                         @foreach($services->take(5) as $s)
                                             <li><a href="{{ route('service.details', $s->id) }}" class="hover:text-blue-500 transition-all flex items-center gap-2 group"><svg class="w-3 h-3 text-blue-500 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg> {{ $s->title }}</a></li>
                                         @endforeach
@@ -209,13 +209,13 @@
 
 
             <!-- Back to top -->
-            <button @click="window.scrollTo({top: 0, behavior: 'smooth'})" x-show="scrolled" x-transition class="fixed bottom-8 right-8 bg-blue-600 text-white w-10 h-10 rounded shadow-lg flex items-center justify-center hover:bg-blue-700 hover:-translate-y-1 transition-all z-50">
+            <button @click="window.scrollTo({top: 0, behavior: 'smooth'})" x-show="scrolled" x-transition class="fixed bottom-8 right-8 bg-blue-600 text-white w-10 h-10 rounded shadow-lg flex items-center justify-center hover:bg-blue-700 hover:-translate-y-1 transition-all z-50 dark:shadow-none">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
             </button>
         </div>
 
         @if(session('success'))
-            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" class="fixed bottom-10 right-10 z-[100] bg-indigo-600 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 transition-all" x-transition:enter="translate-y-20 opacity-0" x-transition:enter-end="translate-y-0 opacity-100" x-transition:leave="translate-y-10 opacity-0">
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" class="fixed bottom-10 right-10 z-[100] bg-indigo-600 dark:bg-indigo-900 text-white px-8 py-4 rounded-2xl shadow-2xl dark:shadow-none flex items-center gap-4 transition-all" x-transition:enter="translate-y-20 opacity-0" x-transition:enter-end="translate-y-0 opacity-100" x-transition:leave="translate-y-10 opacity-0">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                 <span class="font-bold">{{ session('success') }}</span>
                 <button @click="show = false" class="ml-4 opacity-70 hover:opacity-100">&times;</button>

@@ -4,17 +4,17 @@
     <div x-data="{ activeFilter: 'all' }" class="font-sans text-slate-600 dark:text-slate-400">
 
         <!-- Hero Section -->
-        @if($sectionSettings['hero']->is_visible)
+        @if($sectionSettings->get('hero')?->is_visible ?? true)
             <section id="hero" class="relative bg-slate-50 dark:bg-slate-950 py-20 lg:py-32 overflow-hidden transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                     <div class="grid lg:grid-cols-2 gap-12 items-center">
                         <!-- Text Content -->
                         <div class="text-center lg:text-left z-10">
-                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 leading-tight mb-6">
-                                {{ $sectionSettings['hero']->title ?? ($profile->hero_title ?? 'Building Digital Solutions For Your Business') }}
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-800 dark:text-white leading-tight mb-6">
+                                {{ $sectionSettings->get('hero')?->title ?? ($profile->hero_title ?? 'Building Digital Solutions For Your Business') }}
                             </h1>
-                            <p class="text-lg text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0">
-                                {{ $sectionSettings['hero']->description ?? ($profile->hero_subtitle ?? 'We are a team of talented designers making websites with modern technologies.') }}
+                            <p class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto lg:mx-0">
+                                {{ $sectionSettings->get('hero')?->description ?? ($profile->hero_subtitle ?? 'We are a team of talented designers making websites with modern technologies.') }}
                             </p>
                             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                                 <a href="#about"
@@ -53,37 +53,37 @@
                     </div>
                 </div>
                 <!-- Decorative Shapes (CoreBiz style) -->
-                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-50 opacity-50 blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 rounded-full bg-indigo-50 opacity-50 blur-3xl">
+                <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-50 dark:bg-blue-500/5 opacity-50 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-72 h-72 rounded-full bg-indigo-50 dark:bg-indigo-500/5 opacity-50 blur-3xl">
                 </div>
             </section>
         @endif
 
         <!-- Client / Brands (Optional) -->
-        <section class="py-10 border-b border-gray-100 bg-white">
+        <section class="py-10 border-b border-gray-100 dark:border-white/5 bg-white dark:bg-slate-950">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div
                     class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                    <span class="text-2xl font-black text-slate-400">CLIENT<span class="text-blue-500">1</span></span>
-                    <span class="text-2xl font-black text-slate-400">BRAND<span class="text-blue-500">2</span></span>
-                    <span class="text-2xl font-black text-slate-400">COMPANY<span class="text-blue-500">3</span></span>
-                    <span class="text-2xl font-black text-slate-400">PARTNER<span class="text-blue-500">4</span></span>
-                    <span class="text-2xl font-black text-slate-400">STUDIO<span class="text-blue-500">5</span></span>
+                    <span class="text-2xl font-black text-slate-400 dark:text-slate-600">CLIENT<span class="text-blue-500">1</span></span>
+                    <span class="text-2xl font-black text-slate-400 dark:text-slate-600">BRAND<span class="text-blue-500">2</span></span>
+                    <span class="text-2xl font-black text-slate-400 dark:text-slate-600">COMPANY<span class="text-blue-500">3</span></span>
+                    <span class="text-2xl font-black text-slate-400 dark:text-slate-600">PARTNER<span class="text-blue-500">4</span></span>
+                    <span class="text-2xl font-black text-slate-400 dark:text-slate-600">STUDIO<span class="text-blue-500">5</span></span>
                 </div>
             </div>
         </section>
 
         <!-- About Section -->
-        @if($sectionSettings['about']->is_visible)
-            <section id="about" class="py-20 bg-white">
+        @if($sectionSettings->get('about')?->is_visible ?? true)
+            <section id="about" class="py-20 bg-white dark:bg-slate-900 transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <!-- Section Header -->
                     <div class="text-center mb-16">
-                        <h2 class="text-3xl font-bold text-slate-800 mb-4">{{ $sectionSettings['about']->title ?? 'About Us' }}
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">{{ $sectionSettings->get('about')?->title ?? 'About Us' }}
                         </h2>
                         <div class="w-16 h-1 bg-blue-600 mx-auto rounded"></div>
-                        <p class="mt-4 text-slate-500 max-w-2xl mx-auto">
-                            {{ $sectionSettings['about']->description ?? 'Discover our journey, our mission, and the core values that drive us to deliver exceptional results.' }}
+                        <p class="mt-4 text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+                            {{ $sectionSettings->get('about')?->description ?? 'Discover our journey, our mission, and the core values that drive us to deliver exceptional results.' }}
                         </p>
                     </div>
 
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="order-1 lg:order-2">
-                            <div class="prose text-slate-600 mb-6 leading-relaxed">
+                            <div class="prose dark:prose-invert text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
                                 {!! nl2br(e($profile->about_text ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit.')) !!}
                             </div>
                             <a href="{{ route('about') }}"
@@ -123,24 +123,24 @@
         @endif
 
         <!-- Services Section -->
-        @if($sectionSettings['services']->is_visible)
-            <section id="services" class="py-20 bg-slate-50">
+        @if($sectionSettings->get('services')?->is_visible ?? true)
+            <section id="services" class="py-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center mb-16">
-                        <h2 class="text-3xl font-bold text-slate-800 mb-4">
-                            {{ $sectionSettings['services']->title ?? 'Services' }}</h2>
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">
+                            {{ $sectionSettings->get('services')?->title ?? 'Services' }}</h2>
                         <div class="w-16 h-1 bg-blue-600 mx-auto rounded"></div>
-                        <p class="mt-4 text-slate-500 max-w-2xl mx-auto">
-                            {{ $sectionSettings['services']->description ?? 'Explore our wide range of professional services designed to help your business grow and succeed.' }}
+                        <p class="mt-4 text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+                            {{ $sectionSettings->get('services')?->description ?? 'Explore our wide range of professional services designed to help your business grow and succeed.' }}
                         </p>
                     </div>
 
                     <div class="flex flex-wrap justify-center gap-8">
                         @foreach($services as $index => $service)
                             <div
-                                class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] bg-white p-10 rounded shadow-sm hover:shadow-xl transition-all duration-300 border-b-4 border-transparent hover:border-blue-600 group">
+                                class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] bg-white dark:bg-slate-900 p-10 rounded shadow-sm hover:shadow-xl transition-all duration-300 border-b-4 border-transparent hover:border-blue-600 group">
                                 <div
-                                    class="w-16 h-16 bg-blue-50 text-blue-600 rounded flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition duration-300">
+                                    class="w-16 h-16 bg-blue-50 dark:bg-white/5 text-blue-600 dark:text-blue-400 rounded flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition duration-300">
                                     @if($service->image)
                                         <img src="{{ asset('storage/' . $service->image) }}"
                                             class="w-8 h-8 object-contain filter group-hover:brightness-0 group-hover:invert">
@@ -167,7 +167,7 @@
         @endif
 
         <!-- Stats / Counters Section -->
-        @if($sectionSettings['stats']->is_visible)
+        @if($sectionSettings->get('stats')?->is_visible ?? true)
             <section id="stats" class="py-24 relative overflow-hidden bg-slate-900">
                 <!-- Animated Background Elements -->
                 <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -179,11 +179,11 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white">
                     <div class="text-center mb-16">
                         <h2 class="text-3xl md:text-4xl font-black mb-4 tracking-tight">
-                            {{ $sectionSettings['stats']->title ?? 'Our Achievement' }}</h2>
+                            {{ $sectionSettings->get('stats')?->title ?? 'Our Achievement' }}</h2>
                         <div class="w-16 h-1.5 bg-blue-500 mx-auto rounded-full"></div>
                         @if($sectionSettings['stats']->description)
                             <p class="mt-6 text-slate-400 max-w-2xl mx-auto font-medium">
-                                {{ $sectionSettings['stats']->description }}</p>
+                                {{ $sectionSettings->get('stats')?->description }}</p>
                         @endif
                     </div>
 
@@ -261,27 +261,27 @@
         @endif
 
         <!-- Portfolio Section -->
-        @if($sectionSettings['portfolio']->is_visible)
-            <section id="portfolio" class="py-20 bg-white">
+        @if($sectionSettings->get('portfolio')?->is_visible ?? true)
+            <section id="portfolio" class="py-20 bg-white dark:bg-slate-950 transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center mb-10">
-                        <h2 class="text-3xl font-bold text-slate-800 mb-4">
-                            {{ $sectionSettings['portfolio']->title ?? 'Portfolio' }}</h2>
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">
+                            {{ $sectionSettings->get('portfolio')?->title ?? 'Portfolio' }}</h2>
                         <div class="w-16 h-1 bg-blue-600 mx-auto rounded"></div>
-                        <p class="mt-4 text-slate-500 max-w-2xl mx-auto">
-                            {{ $sectionSettings['portfolio']->description ?? 'Take a look at some of our recent work and successful projects.' }}
+                        <p class="mt-4 text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+                            {{ $sectionSettings->get('portfolio')?->description ?? 'Take a look at some of our recent work and successful projects.' }}
                         </p>
                     </div>
 
                     <!-- Filters -->
                     <div class="flex flex-wrap justify-center gap-3 mb-12">
                         <button @click="activeFilter = 'all'"
-                            :class="activeFilter === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:text-blue-600'"
-                            class="px-5 py-2 rounded-full font-medium text-sm transition shadow-sm border border-gray-100">All</button>
+                            :class="activeFilter === 'all' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 dark:shadow-none' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'"
+                            class="px-5 py-2 rounded-full font-medium text-sm transition shadow-sm border border-gray-100 dark:border-white/5">All</button>
                         @foreach($services as $service)
                             <button @click="activeFilter = '{{ $service->title }}'"
-                                :class="activeFilter === '{{ $service->title }}' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:text-blue-600'"
-                                class="px-5 py-2 rounded-full font-medium text-sm transition shadow-sm border border-gray-100">{{ $service->title }}</button>
+                                :class="activeFilter === '{{ $service->title }}' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 dark:shadow-none' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'"
+                                class="px-5 py-2 rounded-full font-medium text-sm transition shadow-sm border border-gray-100 dark:border-white/5">{{ $service->title }}</button>
                         @endforeach
                     </div>
 
@@ -333,21 +333,21 @@
         @endif
 
         <!-- Team Section -->
-        @if($sectionSettings['team']->is_visible)
-            <section id="team" class="py-20 bg-slate-50">
+        @if($sectionSettings->get('team')?->is_visible ?? true)
+            <section id="team" class="py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center mb-16">
-                        <h2 class="text-3xl font-bold text-slate-800 mb-4">{{ $sectionSettings['team']->title ?? 'Team' }}</h2>
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">{{ $sectionSettings->get('team')?->title ?? 'Team' }}</h2>
                         <div class="w-16 h-1 bg-blue-600 mx-auto rounded"></div>
-                        <p class="mt-4 text-slate-500 max-w-2xl mx-auto">
-                            {{ $sectionSettings['team']->description ?? 'Meet our experienced and dedicated team of professionals.' }}
+                        <p class="mt-4 text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+                            {{ $sectionSettings->get('team')?->description ?? 'Meet our experienced and dedicated team of professionals.' }}
                         </p>
                     </div>
 
                     <div class="flex flex-wrap justify-center gap-8">
                         @foreach($team as $member)
                             <div
-                                class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] bg-white rounded shadow-sm overflow-hidden group hover:shadow-xl transition-shadow">
+                                class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] bg-white dark:bg-slate-950 rounded shadow-sm overflow-hidden group hover:shadow-xl transition-shadow border border-transparent dark:border-white/5">
                                 <div class="relative overflow-hidden aspect-square">
                                     @if($member->image)
                                         <img src="{{ asset('storage/' . $member->image) }}"
@@ -363,7 +363,7 @@
                                     @endif
                                     <!-- Social Overlay -->
                                     <div
-                                        class="absolute inset-x-0 bottom-0 bg-white/90 backdrop-blur py-3 flex justify-center gap-4 translate-y-full group-hover:translate-y-0 transition duration-300">
+                                        class="absolute inset-x-0 bottom-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur py-3 flex justify-center gap-4 translate-y-full group-hover:translate-y-0 transition duration-300">
                                         @if($member->facebook_url) <a href="{{ $member->facebook_url }}"
                                             class="text-slate-400 hover:text-blue-600"><svg class="w-5 h-5 fill-current"
                                                 viewBox="0 0 24 24">
@@ -380,10 +380,10 @@
                                 </div>
                                 <div class="p-6 text-center">
                                     <a href="{{ route('team.details', $member->id) }}">
-                                        <h4 class="text-lg font-bold text-slate-800 hover:text-blue-600 transition">
+                                        <h4 class="text-lg font-bold text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition">
                                             {{ $member->name }}</h4>
                                     </a>
-                                    <p class="text-sm text-slate-500 mt-1 mb-3">{{ $member->position }}</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-3">{{ $member->position }}</p>
                                     <a href="{{ route('team.details', $member->id) }}"
                                         class="text-xs font-semibold text-blue-600 hover:underline uppercase tracking-wider">View
                                         Profile</a>
@@ -395,7 +395,7 @@
         @endif
 
         <!-- Testimonials / Reviews Section -->
-        @if($sectionSettings['reviews']->is_visible)
+        @if($sectionSettings->get('reviews')?->is_visible ?? true)
             <section id="reviews" class="py-20 bg-blue-600 relative overflow-hidden">
                 <!-- Decorative Background -->
                 <div
@@ -405,10 +405,10 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div class="text-center mb-16">
                         <h2 class="text-3xl font-bold text-white mb-4">
-                            {{ $sectionSettings['reviews']->title ?? 'What Our Clients Say' }}</h2>
+                            {{ $sectionSettings->get('reviews')?->title ?? 'What Our Clients Say' }}</h2>
                         <div class="w-16 h-1 bg-blue-300 mx-auto rounded"></div>
                         <p class="mt-4 text-blue-100 max-w-2xl mx-auto">
-                            {{ $sectionSettings['reviews']->description ?? 'Discover why businesses trust us to deliver exceptional results and outstanding service.' }}
+                            {{ $sectionSettings->get('reviews')?->description ?? 'Discover why businesses trust us to deliver exceptional results and outstanding service.' }}
                         </p>
                     </div>
 
@@ -426,10 +426,10 @@
                                     :style="'transform: translateX(-' + (activeSlide * 100) + '%)'">
                                     @foreach($reviews as $review)
                                         <div class="w-full flex-shrink-0 px-2">
-                                            <div class="bg-white rounded-2xl p-8 md:p-12 shadow-xl relative mt-6 text-center">
+                                            <div class="bg-white dark:bg-slate-900 rounded-2xl p-8 md:p-12 shadow-xl dark:shadow-none relative mt-6 text-center">
                                                 <!-- Quote Icon -->
                                                 <div
-                                                    class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white border-4 border-white shadow-sm">
+                                                    class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white border-4 border-white dark:border-slate-900 shadow-sm">
                                                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                                         <path
                                                             d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
@@ -452,7 +452,7 @@
                                                     @endfor
                                                 </div>
 
-                                                <p class="text-slate-600 text-lg md:text-xl italic mb-8 leading-relaxed">
+                                                <p class="text-slate-600 dark:text-slate-300 text-lg md:text-xl italic mb-8 leading-relaxed">
                                                     "{!! nl2br(e($review->review_text)) !!}"</p>
 
                                                 <div class="flex flex-col items-center justify-center">
@@ -466,9 +466,9 @@
                                                             {{ substr($review->client_name, 0, 1) }}
                                                         </div>
                                                     @endif
-                                                    <h4 class="font-bold text-slate-800 text-lg">{{ $review->client_name }}</h4>
+                                                    <h4 class="font-bold text-slate-800 dark:text-white text-lg">{{ $review->client_name }}</h4>
                                                     @if($review->client_designation)
-                                                        <p class="text-sm text-blue-600 font-medium mt-1">{{ $review->client_designation }}
+                                                        <p class="text-sm text-blue-600 dark:text-blue-400 font-medium mt-1">{{ $review->client_designation }}
                                                         </p>
                                                     @endif
                                                 </div>
@@ -510,16 +510,16 @@
         @endif
 
         <!-- Latest Events Section -->
-        @if($sectionSettings['events']->is_visible)
-            <section id="events" class="py-20 bg-slate-50 border-t border-slate-100">
+        @if($sectionSettings->get('events')?->is_visible ?? true)
+            <section id="events" class="py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 transition-colors duration-500">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-end mb-16">
                         <div>
-                            <h2 class="text-3xl font-bold text-slate-800 mb-4">
-                                {{ $sectionSettings['events']->title ?? 'Latest Events & Highlights' }}</h2>
+                            <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-4">
+                                {{ $sectionSettings->get('events')?->title ?? 'Latest Events & Highlights' }}</h2>
                             <div class="w-16 h-1 bg-blue-600 rounded"></div>
-                            <p class="mt-4 text-slate-500 max-w-2xl">
-                                {{ $sectionSettings['events']->description ?? 'Stay updated with our latest company events, workshops, and milestones.' }}
+                            <p class="mt-4 text-slate-500 dark:text-slate-400 max-w-2xl">
+                                {{ $sectionSettings->get('events')?->description ?? 'Stay updated with our latest company events, workshops, and milestones.' }}
                             </p>
                         </div>
                     </div>
@@ -528,7 +528,7 @@
                         <div class="flex flex-wrap justify-center gap-8">
                             @foreach($events->take(3) as $event)
                                 <div
-                                    class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+                                    class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)] bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-white/5 group">
                                     <div class="relative overflow-hidden aspect-[16/10]">
                                         @if($event->thumbnail)
                                             <img src="{{ asset('storage/' . $event->thumbnail) }}"
@@ -543,12 +543,12 @@
                                             </div>
                                         @endif
                                         <div
-                                            class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-2 rounded-lg shadow-sm text-center">
+                                            class="absolute top-4 left-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur px-3 py-2 rounded-lg shadow-sm text-center">
                                             @if($event->event_date)
                                                 <span
-                                                    class="block text-xl font-black text-blue-600 leading-none">{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}</span>
+                                                    class="block text-xl font-black text-blue-600 dark:text-blue-400 leading-none">{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}</span>
                                                 <span
-                                                    class="block text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">{{ \Carbon\Carbon::parse($event->event_date)->format('M') }}</span>
+                                                    class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">{{ \Carbon\Carbon::parse($event->event_date)->format('M') }}</span>
                                             @else
                                                 <span class="block text-sm font-bold text-slate-500 uppercase tracking-wider">TBA</span>
                                             @endif
@@ -556,11 +556,11 @@
                                     </div>
 
                                     <div class="p-8">
-                                        <h4 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition">
+                                        <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
                                             {{ $event->title }}</h4>
-                                        <p class="text-slate-500 mb-6 line-clamp-3">{{ $event->description }}</p>
+                                        <p class="text-slate-500 dark:text-slate-400 mb-6 line-clamp-3">{{ $event->description }}</p>
 
-                                        <div class="flex items-center justify-between border-t border-slate-50 pt-4">
+                                        <div class="flex items-center justify-between border-t border-slate-50 dark:border-white/5 pt-4">
                                             <span class="text-sm font-semibold text-slate-400 flex items-center gap-2">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -596,29 +596,29 @@
         @endif
 
         <!-- Contact Section -->
-        @if($sectionSettings['contact']->is_visible)
-            <section id="contact" class="py-24 bg-white relative overflow-hidden">
+        @if($sectionSettings->get('contact')?->is_visible ?? true)
+            <section id="contact" class="py-24 bg-white dark:bg-slate-950 relative overflow-hidden transition-colors duration-500">
                 <!-- Subtle Background Pattern -->
-                <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none"
+                <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
                     style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PHBhdGggZD0iTTMwIDBMMzAgNjBNMCAzMEw2MCAzMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')">
                 </div>
 
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div class="text-center mb-20">
                         <span
-                            class="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 font-bold tracking-widest uppercase text-xs rounded-full mb-4">Get
+                            class="inline-block px-4 py-1.5 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-bold tracking-widest uppercase text-xs rounded-full mb-4">Get
                             In Touch</span>
-                        <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">
-                            {{ $sectionSettings['contact']->title ?? 'Contact Us' }}</h2>
+                        <h2 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6">
+                            {{ $sectionSettings->get('contact')?->title ?? 'Contact Us' }}</h2>
                         <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
-                        <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto font-medium">
-                            {{ $sectionSettings['contact']->description ?? 'We are here to help and answer any question you might have. We look forward to hearing from you.' }}
+                        <p class="mt-6 text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto font-medium">
+                            {{ $sectionSettings->get('contact')?->description ?? 'We are here to help and answer any question you might have. We look forward to hearing from you.' }}
                         </p>
                     </div>
 
                     <!-- Centered Map -->
                     <div
-                        class="mb-20 max-w-5xl mx-auto h-[450px] bg-slate-100 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white relative group">
+                        class="mb-20 max-w-5xl mx-auto h-[450px] bg-slate-100 dark:bg-slate-900 rounded-[3rem] overflow-hidden shadow-2xl dark:shadow-none border-8 border-white dark:border-slate-800 relative group">
                         <iframe
                             class="w-full h-full grayscale-[0.5] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.9024424301355!2d90.3912033!3d23.7508665!2m3!1f0!2f0!3f0!3m2!i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8bd55555555%3A0x1234567890abcdef!2sDhaka!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd"
@@ -629,10 +629,10 @@
                     <div class="grid lg:grid-cols-12 gap-16 items-start">
                         <!-- Contact Info Cards -->
                         <div class="lg:col-span-4 space-y-8">
-                            <div
-                                class="p-8 bg-slate-50 rounded-[2rem] border border-slate-100 hover:border-blue-200 transition-all duration-500 group">
+                             <div
+                                class="p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-white/5 hover:border-blue-200 dark:hover:border-blue-500/30 transition-all duration-500 group">
                                 <div
-                                    class="w-16 h-16 bg-white text-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-blue-600 group-hover:text-white transition duration-500 transform group-hover:rotate-6">
+                                    class="w-16 h-16 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:bg-blue-600 group-hover:text-white transition duration-500 transform group-hover:rotate-6">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -640,8 +640,8 @@
                                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                 </div>
-                                <h4 class="font-black text-slate-900 text-xl mb-3 tracking-tight">Our Headquarters</h4>
-                                <p class="text-slate-500 leading-relaxed font-medium">
+                                <h4 class="font-black text-slate-900 dark:text-white text-xl mb-3 tracking-tight">Our Headquarters</h4>
+                                <p class="text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
                                     {{ $profile->address ?? 'A108 Adam Street, New York, NY 535022' }}</p>
                             </div>
 
@@ -692,7 +692,7 @@
                         <!-- Contact Form -->
                         <div class="lg:col-span-8">
                             <div
-                                class="bg-white p-8 md:p-14 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+                                class="bg-white dark:bg-slate-900 p-8 md:p-14 rounded-[3rem] border border-slate-100 dark:border-white/5 shadow-2xl dark:shadow-none shadow-slate-200/50">
                                 <form action="{{ route('contact.store') }}" method="POST" class="space-y-8">
                                     @csrf
                                     <div class="grid md:grid-cols-2 gap-8">
@@ -700,14 +700,14 @@
                                             <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Your
                                                 Full Name</label>
                                             <input type="text" name="name" required placeholder="e.g. John Doe"
-                                                class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium">
+                                                class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 focus:bg-white dark:focus:bg-slate-950 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium dark:text-white">
                                         </div>
                                         <div class="space-y-2">
                                             <label
                                                 class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Email
                                                 Address</label>
                                             <input type="email" name="email" required placeholder="e.g. john@example.com"
-                                                class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium">
+                                                class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 focus:bg-white dark:focus:bg-slate-950 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium dark:text-white">
                                         </div>
                                     </div>
                                     <div class="space-y-2">
@@ -718,16 +718,16 @@
                                         @endphp
                                         <input type="text" name="subject" value="{{ $defaultSubject }}" required
                                             placeholder="What are you inquiring about?"
-                                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium">
+                                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 focus:bg-white dark:focus:bg-slate-950 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium dark:text-white">
                                     </div>
                                     <div class="space-y-2">
                                         <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Detailed
                                             Message</label>
                                         <textarea name="message" rows="5" required placeholder="Write your message here..."
-                                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium resize-none"></textarea>
+                                            class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 focus:bg-white dark:focus:bg-slate-950 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/5 outline-none transition duration-500 font-medium resize-none dark:text-white"></textarea>
                                     </div>
                                     <button type="submit"
-                                        class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl hover:bg-blue-700 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-blue-600/25 flex items-center justify-center gap-3 group">
+                                        class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl hover:bg-blue-700 hover:-translate-y-1 transition-all duration-300 shadow-xl shadow-blue-600/25 dark:shadow-none flex items-center justify-center gap-3 group">
                                         <span class="tracking-widest uppercase text-sm">Send Your Message</span>
                                         <svg class="w-6 h-6 transition-transform group-hover:translate-x-1" fill="none"
                                             stroke="currentColor" viewBox="0 0 24 24">

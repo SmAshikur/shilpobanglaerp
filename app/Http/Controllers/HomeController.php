@@ -18,11 +18,11 @@ class HomeController extends Controller
         $profile = ProfileInfo::first();
         $sectionSettings = SectionSetting::all()->keyBy('key');
         
-        $services = $sectionSettings['services']->is_visible ? Service::where('is_active', true)->get() : collect();
-        $team = $sectionSettings['team']->is_visible ? TeamMember::where('is_active', true)->get() : collect();
-        $reviews = $sectionSettings['reviews']->is_visible ? Review::where('is_active', true)->get() : collect();
-        $portfolios = $sectionSettings['portfolio']->is_visible ? Portfolio::where('is_active', true)->with('service')->get() : collect();
-        $events = $sectionSettings['events']->is_visible ? Event::where('is_active', true)->with('media')->latest()->get() : collect();
+        $services = ($sectionSettings->get('services')?->is_visible ?? true) ? Service::where('is_active', true)->get() : collect();
+        $team = ($sectionSettings->get('team')?->is_visible ?? true) ? TeamMember::where('is_active', true)->get() : collect();
+        $reviews = ($sectionSettings->get('reviews')?->is_visible ?? true) ? Review::where('is_active', true)->get() : collect();
+        $portfolios = ($sectionSettings->get('portfolio')?->is_visible ?? true) ? Portfolio::where('is_active', true)->with('service')->get() : collect();
+        $events = ($sectionSettings->get('events')?->is_visible ?? true) ? Event::where('is_active', true)->with('media')->latest()->get() : collect();
         
         return view('welcome', compact('profile', 'services', 'team', 'reviews', 'portfolios', 'events', 'sectionSettings'));
     }
