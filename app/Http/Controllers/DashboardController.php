@@ -395,14 +395,20 @@ class DashboardController extends Controller
 
     public function sectionSettings($key)
     {
-        $setting = SectionSetting::where('key', $key)->firstOrFail();
+        $setting = SectionSetting::firstOrCreate(
+            ['key' => $key],
+            ['title' => ucfirst($key), 'description' => '', 'is_visible' => true]
+        );
         $profile = ProfileInfo::first();
         return view('dashboard.section_settings', compact('setting', 'profile'));
     }
 
     public function sectionSettingsUpdate(Request $request, $key)
     {
-        $setting = SectionSetting::where('key', $key)->firstOrFail();
+        $setting = SectionSetting::firstOrCreate(
+            ['key' => $key],
+            ['title' => ucfirst($key), 'description' => '', 'is_visible' => true]
+        );
         
         $request->validate([
             'title' => 'nullable|string|max:255',
