@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('profile_infos', function (Blueprint $table) {
-            $table->string('hero_bg')->nullable()->after('about_image');
+            $table->string('stat_clients')->nullable()->default('232');
+            $table->string('stat_projects')->nullable()->default('521');
+            $table->string('stat_hours')->nullable()->default('1453');
+            $table->string('stat_workers')->nullable()->default('32');
         });
     }
 
@@ -22,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('profile_infos', function (Blueprint $table) {
-            //
+            $table->dropColumn(['stat_clients', 'stat_projects', 'stat_hours', 'stat_workers']);
         });
     }
 };

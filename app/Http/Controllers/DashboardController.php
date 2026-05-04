@@ -10,6 +10,7 @@ use App\Models\Event;
 use App\Models\EventMedia;
 use App\Models\ContactSubmission;
 use App\Models\ProfileInfo;
+use App\Models\SectionSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -32,7 +33,12 @@ class DashboardController extends Controller
     public function services()
     {
         $services = Service::latest()->get();
-        return view('dashboard.services', compact('services'));
+        return view('dashboard.services.index', compact('services'));
+    }
+
+    public function servicesCreate()
+    {
+        return view('dashboard.services.create');
     }
 
     public function serviceStore(Request $request)
@@ -63,26 +69,42 @@ class DashboardController extends Controller
     public function team()
     {
         $team = TeamMember::latest()->get();
-        return view('dashboard.team', compact('team'));
+        return view('dashboard.team.index', compact('team'));
+    }
+
+    public function teamCreate()
+    {
+        return view('dashboard.team.create');
     }
 
     public function teamStore(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'position' => 'required|string|max:255',
+            'bio' => 'nullable|string',
+            'image_file' => 'nullable|image|max:2048',
             'facebook_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url',
-            'image_file' => 'nullable|image|max:2048',
+            'twitter_url' => 'nullable|url',
         ]);
 
+        $imagePath = null;
         if ($request->hasFile('image_file')) {
-            $validated['image'] = $request->file('image_file')->store('team', 'public');
+            $imagePath = $request->file('image_file')->store('team', 'public');
         }
 
-        TeamMember::create($validated);
+        TeamMember::create([
+            'name' => $request->name,
+            'position' => $request->position,
+            'bio' => $request->bio,
+            'image' => $imagePath,
+            'facebook_url' => $request->facebook_url,
+            'linkedin_url' => $request->linkedin_url,
+            'twitter_url' => $request->twitter_url,
+        ]);
 
-        return back()->with('success', 'Team member added successfully!');
+        return back()->with('success', 'Team member added successfully.');
     }
 
     public function teamDestroy(TeamMember $member)
@@ -104,22 +126,33 @@ class DashboardController extends Controller
         
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
-            'hero_title' => 'required|string|max:255',
-            'hero_subtitle' => 'nullable|string',
-            'about_text' => 'nullable|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|string',
             'address' => 'nullable|string',
             'facebook_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
+            'twitter_url' => 'nullable|url',
+            'youtube_url' => 'nullable|url',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
             'footer_text' => 'nullable|string',
+            'footer_description' => 'nullable|string',
             'logo_file' => 'nullable|image|max:2048',
-            'about_image_file' => 'nullable|image|max:2048',
-            'hero_bg_file' => 'nullable|image|max:4096',
+            
+            // User Security
+            'name' => 'nullable|string|max:255',
+            'user_email' => 'nullable|email|unique:users,email,' . auth()->id(),
+            'password' => 'nullable|string|min:8',
+
+            // SMTP
+            'mail_host' => 'nullable|string',
+            'mail_port' => 'nullable|string',
+            'mail_encryption' => 'nullable|string',
+            'mail_username' => 'nullable|string',
+            'mail_password' => 'nullable|string',
+            'mail_from_address' => 'nullable|email',
         ]);
 
         if ($request->hasFile('logo_file')) {
@@ -127,25 +160,60 @@ class DashboardController extends Controller
             $validated['logo'] = $request->file('logo_file')->store('brand', 'public');
         }
 
-        if ($request->hasFile('about_image_file')) {
-            if ($profile->about_image) Storage::disk('public')->delete($profile->about_image);
-            $validated['about_image'] = $request->file('about_image_file')->store('brand', 'public');
-        }
-
-        if ($request->hasFile('hero_bg_file')) {
-            if ($profile->hero_bg) Storage::disk('public')->delete($profile->hero_bg);
-            $validated['hero_bg'] = $request->file('hero_bg_file')->store('brand', 'public');
-        }
-
         $profile->update($validated);
 
-        return back()->with('success', 'Profile and SEO settings updated!');
+        // Update User Security & Profile Image
+        $user = auth()->user();
+        if ($request->filled('name')) $user->name = $request->name;
+        if ($request->filled('user_email')) $user->email = $request->user_email;
+        if ($request->filled('password')) $user->password = Hash::make($request->password);
+        
+        if ($request->hasFile('profile_image_file')) {
+            if ($user->profile_image) Storage::disk('public')->delete($user->profile_image);
+            $user->profile_image = $request->file('profile_image_file')->store('profiles', 'public');
+        }
+
+        $user->save();
+
+        // Update SMTP (.env)
+        if ($request->filled('mail_host')) {
+            $this->updateDotEnv('MAIL_HOST', $request->mail_host);
+            $this->updateDotEnv('MAIL_PORT', $request->mail_port);
+            $this->updateDotEnv('MAIL_ENCRYPTION', $request->mail_encryption);
+            $this->updateDotEnv('MAIL_USERNAME', $request->mail_username);
+            $this->updateDotEnv('MAIL_PASSWORD', $request->mail_password);
+            $this->updateDotEnv('MAIL_FROM_ADDRESS', $request->mail_from_address);
+        }
+
+        return back()->with('success', 'Configuration updated successfully!');
+    }
+
+    private function updateDotEnv($key, $value)
+    {
+        $path = base_path('.env');
+        if (file_exists($path)) {
+            $content = file_get_contents($path);
+            
+            // Regex to find and replace or append the key
+            if (preg_match("/^{$key}=(.*)$/m", $content)) {
+                $content = preg_replace("/^{$key}=(.*)$/m", "{$key}=\"{$value}\"", $content);
+            } else {
+                $content .= "\n{$key}=\"{$value}\"";
+            }
+            
+            file_put_contents($path, $content);
+        }
     }
 
     public function reviews()
     {
         $reviews = Review::latest()->get();
-        return view('dashboard.reviews', compact('reviews'));
+        return view('dashboard.reviews.index', compact('reviews'));
+    }
+
+    public function reviewsCreate()
+    {
+        return view('dashboard.reviews.create');
     }
 
     public function reviewStore(Request $request)
@@ -178,7 +246,13 @@ class DashboardController extends Controller
     {
         $portfolios = Portfolio::latest()->with('service')->get();
         $services = Service::all();
-        return view('dashboard.portfolio', compact('portfolios', 'services'));
+        return view('dashboard.portfolio.index', compact('portfolios', 'services'));
+    }
+
+    public function portfolioCreate()
+    {
+        $services = Service::all();
+        return view('dashboard.portfolio.create', compact('services'));
     }
 
     public function portfolioStore(Request $request)
@@ -188,6 +262,7 @@ class DashboardController extends Controller
             'description' => 'required|string',
             'service_id' => 'required|exists:services,id',
             'project_url' => 'nullable|url',
+            'client_name' => 'nullable|string|max:255',
             'image_file' => 'nullable|image|max:4096',
         ]);
 
@@ -209,8 +284,19 @@ class DashboardController extends Controller
 
     public function events()
     {
-        $events = Event::latest()->with('media')->get();
-        return view('dashboard.events', compact('events'));
+        $events = Event::latest()->get();
+        return view('dashboard.events.index', compact('events'));
+    }
+
+    public function eventsCreate()
+    {
+        return view('dashboard.events.create');
+    }
+
+    public function eventsShow(Event $event)
+    {
+        $event->load('media');
+        return view('dashboard.events.show', compact('event'));
     }
 
     public function eventStore(Request $request)
@@ -305,5 +391,61 @@ class DashboardController extends Controller
         $user->save();
 
         return back()->with('success', 'Security settings updated!');
+    }
+
+    public function sectionSettings($key)
+    {
+        $setting = SectionSetting::where('key', $key)->firstOrFail();
+        $profile = ProfileInfo::first();
+        return view('dashboard.section_settings', compact('setting', 'profile'));
+    }
+
+    public function sectionSettingsUpdate(Request $request, $key)
+    {
+        $setting = SectionSetting::where('key', $key)->firstOrFail();
+        
+        $request->validate([
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $setting->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'is_visible' => $request->has('is_visible'),
+        ]);
+
+        // Handle Section-Specific Content
+        $profile = ProfileInfo::first();
+        
+        if ($key === 'hero') {
+            $profile->update([
+                'hero_title' => $request->title, // Synchronize with setting title
+                'hero_subtitle' => $request->hero_subtitle,
+            ]);
+            if ($request->hasFile('hero_bg_file')) {
+                $path = $request->file('hero_bg_file')->store('hero', 'public');
+                $profile->update(['hero_bg' => $path]);
+            }
+        } elseif ($key === 'about') {
+            $profile->update([
+                'about_text' => $request->about_text,
+                'mission_statement' => $request->mission_statement,
+                'vision_statement' => $request->vision_statement,
+            ]);
+            if ($request->hasFile('about_image_file')) {
+                $path = $request->file('about_image_file')->store('about', 'public');
+                $profile->update(['about_image' => $path]);
+            }
+        } elseif ($key === 'stats') {
+            $profile->update([
+                'stat_clients' => $request->stat_clients,
+                'stat_projects' => $request->stat_projects,
+                'stat_hours' => $request->stat_hours,
+                'stat_workers' => $request->stat_workers,
+            ]);
+        }
+
+        return back()->with('success', ucfirst($key) . ' section content updated!');
     }
 }

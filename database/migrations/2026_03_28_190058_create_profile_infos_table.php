@@ -19,12 +19,17 @@ return new class extends Migration
             $table->text('hero_subtitle')->nullable();
             $table->text('about_text')->nullable();
             $table->string('about_image')->nullable();
+            $table->string('hero_bg')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('instagram_url')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->text('meta_keywords')->nullable();
+            $table->text('footer_text')->nullable();
             $table->timestamps();
         });
     }
