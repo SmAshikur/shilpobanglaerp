@@ -96,12 +96,6 @@
                     </nav>
 
                     <div class="hidden md:flex items-center gap-4">
-                        <!-- Theme Switcher -->
-                        <button @click="darkMode = !darkMode; localStorage.setItem('site_theme', darkMode ? 'dark' : 'light')" 
-                                class="p-2.5 rounded-xl bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-100 dark:border-white/5 hover:bg-slate-100 dark:hover:bg-white/10 transition-all duration-300 shadow-sm" title="Toggle Theme">
-                            <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-                            <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
-                        </button>
                         
                         <a href="{{ route('contact.page') }}" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 transition font-bold text-sm shadow-xl shadow-blue-500/20">Get Started</a>
                     </div>
@@ -114,14 +108,6 @@
 
                 <div x-show="mobileMenuOpen" x-cloak x-collapse class="md:hidden bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-white/5 absolute w-full left-0 top-full shadow-lg">
                     <div class="flex flex-col px-4 py-4 space-y-4">
-                        <div class="flex items-center justify-between pb-2 border-b border-gray-50 dark:border-white/5">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Theme</span>
-                            <button @click="darkMode = !darkMode; localStorage.setItem('site_theme', darkMode ? 'dark' : 'light')" 
-                                    class="p-2 rounded-lg bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-100 dark:border-white/5 transition-all">
-                                <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-                                <svg x-show="darkMode" x-cloak class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
-                            </button>
-                        </div>
                         <a href="{{ route('home') }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Home</a>
                         <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">About</a>
                         @if($sectionSettings->get('services')?->is_visible ?? true) <a href="{{ Request::is('/') ? '#services' : route('home').'#services' }}" @click="mobileMenuOpen = false" class="text-slate-600 dark:text-slate-400 font-semibold text-sm hover:text-blue-600">Services</a> @endif
