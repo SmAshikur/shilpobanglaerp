@@ -97,7 +97,7 @@
 
                     <div class="hidden md:flex items-center gap-4">
                         
-                        <a href="{{ route('contact.page') }}" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 transition font-bold text-sm shadow-xl shadow-blue-500/20">Get Started</a>
+                        <a href="{{ route('login') }}" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 transition font-bold text-sm shadow-xl shadow-blue-500/20">Get Started</a>
                     </div>
 
                     <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-600 hover:text-blue-600 focus:outline-none">

@@ -17,7 +17,7 @@
                                 {{ $sectionSettings->get('hero')?->description ?? ($profile->hero_subtitle ?? 'We are a team of talented designers making websites with modern technologies.') }}
                             </p>
                             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <a href="#about"
+                                <a href="{{ route('login') }}"
                                     class="bg-blue-600 text-white px-8 py-3.5 rounded hover:bg-blue-700 transition font-semibold text-sm shadow-md">Get
                                     Started</a>
                                 <a href="#"

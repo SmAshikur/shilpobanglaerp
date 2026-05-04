@@ -200,7 +200,7 @@
         <div class="max-w-4xl mx-auto relative z-10">
             <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Ready to take your business to the next level?</h2>
             <p class="text-blue-100 text-lg mb-8">Join hundreds of satisfied clients who have transformed their digital presence with us.</p>
-            <a href="{{ route('contact.page') }}" class="inline-block bg-white text-blue-600 font-bold px-10 py-4 rounded hover:bg-slate-50 transition shadow-xl hover:shadow-2xl hover:-translate-y-1">Start A Project Today</a>
+            <a href="{{ route('login') }}" class="inline-block bg-white text-blue-600 font-bold px-10 py-4 rounded hover:bg-slate-50 transition shadow-xl hover:shadow-2xl hover:-translate-y-1">Start A Project Today</a>
         </div>
     </section>
 
