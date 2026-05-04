@@ -181,7 +181,7 @@
                         <h2 class="text-3xl md:text-4xl font-black mb-4 tracking-tight">
                             {{ $sectionSettings->get('stats')?->title ?? 'Our Achievement' }}</h2>
                         <div class="w-16 h-1.5 bg-blue-500 mx-auto rounded-full"></div>
-                        @if($sectionSettings['stats']->description)
+                        @if($sectionSettings->get('stats')?->description)
                             <p class="mt-6 text-slate-400 max-w-2xl mx-auto font-medium">
                                 {{ $sectionSettings->get('stats')?->description }}</p>
                         @endif

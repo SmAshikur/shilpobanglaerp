@@ -7,11 +7,11 @@
         <div class="absolute inset-0 opacity-20 bg-center bg-cover" style="background-image: url('{{ $profile->hero_bg ? asset('storage/'.$profile->hero_bg) : 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80' }}')"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-slate-900/90"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">{{ $sectionSettings['contact']->title ?? 'Contact Us' }}</h1>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">{{ $sectionSettings->get('contact')?->title ?? 'Contact Us' }}</h1>
             <div class="flex justify-center items-center gap-3 text-sm font-medium text-blue-200">
                 <a href="{{ route('home') }}" class="hover:text-white transition">Home</a>
                 <span>/</span>
-                <span class="text-white">{{ $sectionSettings['contact']->title ?? 'Contact Us' }}</span>
+                <span class="text-white">{{ $sectionSettings->get('contact')?->title ?? 'Contact Us' }}</span>
             </div>
         </div>
         <div class="absolute -bottom-1 left-0 w-full overflow-hidden leading-none">
@@ -29,9 +29,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-20">
                 <span class="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 font-bold tracking-widest uppercase text-xs rounded-full mb-4">Get In Touch</span>
-                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">{{ $sectionSettings['contact']->title ?? 'Contact Us' }}</h2>
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6">{{ $sectionSettings->get('contact')?->title ?? 'Contact Us' }}</h2>
                 <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
-                <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto font-medium">{{ $sectionSettings['contact']->description ?? 'We are here to help and answer any question you might have. We look forward to hearing from you.' }}</p>
+                <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto font-medium">{{ $sectionSettings->get('contact')?->description ?? 'We are here to help and answer any question you might have. We look forward to hearing from you.' }}</p>
             </div>
 
             <!-- Centered Map -->
