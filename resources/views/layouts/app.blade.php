@@ -69,10 +69,15 @@
                                 x-transition:enter="transition ease-out duration-200" 
                                 x-transition:enter-start="opacity-0 translate-y-2" 
                                 x-transition:enter-end="opacity-100 translate-y-0"
-                                class="absolute top-full left-0 w-64 bg-white dark:bg-slate-900 shadow-2xl rounded-2xl border border-slate-50 dark:border-white/5 py-4 z-50 mt-2">
-                                @foreach($services as $s)
-                                    <a href="{{ route('service.details', $s->id) }}" class="block px-6 py-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-white/5 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium">{{ $s->title }}</a>
-                                @endforeach
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 translate-y-0"
+                                x-transition:leave-end="opacity-0 translate-y-2"
+                                class="absolute top-full left-0 w-64 pt-2 z-50">
+                                <div class="bg-white dark:bg-slate-900 shadow-2xl rounded-2xl border border-slate-50 dark:border-white/5 py-4">
+                                    @foreach($services as $s)
+                                        <a href="{{ route('service.details', $s->id) }}" class="block px-6 py-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-blue-50 dark:hover:bg-white/5 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium">{{ $s->title }}</a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                         @endif
