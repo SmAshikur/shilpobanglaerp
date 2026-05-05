@@ -14,8 +14,10 @@ Route::get('/event/{id}', [HomeController::class, 'eventDetails'])->name('event.
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact.page');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
