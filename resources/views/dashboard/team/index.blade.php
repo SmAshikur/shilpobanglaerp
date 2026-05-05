@@ -52,7 +52,7 @@
                 <p class="text-sm text-slate-500 mt-4 line-clamp-2 leading-relaxed">{{ $member->bio }}</p>
                 <div class="mt-6 pt-6 border-t border-slate-50 flex items-center justify-between">
                     <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Added on {{ $member->created_at->format('M d, Y') }}</span>
-                    <a href="#" class="text-xs font-bold text-indigo-600 hover:underline">Edit Profile</a>
+                    <a href="{{ route('dashboard.team.edit', $member) }}" class="text-xs font-bold text-indigo-600 hover:underline">Edit Profile</a>
                 </div>
             </div>
         </div>

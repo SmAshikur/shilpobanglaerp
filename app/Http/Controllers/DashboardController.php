@@ -65,6 +65,30 @@ class DashboardController extends Controller
         $service->delete();
         return back()->with('success', 'Service deleted successfully!');
     }
+
+    public function serviceEdit(Service $service)
+    {
+        return view('dashboard.services.edit', compact('service'));
+    }
+
+    public function serviceUpdate(Request $request, Service $service)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'icon' => 'nullable|string|max:255',
+            'image_file' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            if ($service->image) Storage::disk('public')->delete($service->image);
+            $validated['image'] = $request->file('image_file')->store('services', 'public');
+        }
+
+        $service->update($validated);
+
+        return redirect()->route('dashboard.services')->with('success', 'Service updated successfully!');
+    }
     
     public function team()
     {
@@ -112,6 +136,35 @@ class DashboardController extends Controller
         if ($member->image) Storage::disk('public')->delete($member->image);
         $member->delete();
         return back()->with('success', 'Team member removed successfully!');
+    }
+
+    public function teamEdit(TeamMember $member)
+    {
+        return view('dashboard.team.edit', compact('member'));
+    }
+
+    public function teamUpdate(Request $request, TeamMember $member)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'bio' => 'nullable|string',
+            'image_file' => 'nullable|image|max:2048',
+            'facebook_url' => 'nullable|url',
+            'linkedin_url' => 'nullable|url',
+            'twitter_url' => 'nullable|url',
+        ]);
+
+        $data = $request->except(['_token', '_method', 'image_file']);
+
+        if ($request->hasFile('image_file')) {
+            if ($member->image) Storage::disk('public')->delete($member->image);
+            $data['image'] = $request->file('image_file')->store('team', 'public');
+        }
+
+        $member->update($data);
+
+        return redirect()->route('dashboard.team')->with('success', 'Team member updated successfully.');
     }
 
     public function profile()
@@ -242,6 +295,31 @@ class DashboardController extends Controller
         return back()->with('success', 'Review removed successfully!');
     }
 
+    public function reviewEdit(Review $review)
+    {
+        return view('dashboard.reviews.edit', compact('review'));
+    }
+
+    public function reviewUpdate(Request $request, Review $review)
+    {
+        $validated = $request->validate([
+            'client_name' => 'required|string|max:255',
+            'client_designation' => 'nullable|string|max:255',
+            'review_text' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+            'image_file' => 'nullable|image|max:1024',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            if ($review->client_image) Storage::disk('public')->delete($review->client_image);
+            $validated['client_image'] = $request->file('image_file')->store('reviews', 'public');
+        }
+
+        $review->update($validated);
+
+        return redirect()->route('dashboard.reviews')->with('success', 'Review updated successfully!');
+    }
+
     public function portfolio()
     {
         $portfolios = Portfolio::latest()->with('service')->get();
@@ -280,6 +358,33 @@ class DashboardController extends Controller
         if ($project->image) Storage::disk('public')->delete($project->image);
         $project->delete();
         return back()->with('success', 'Project removed from portfolio!');
+    }
+
+    public function portfolioEdit(Portfolio $project)
+    {
+        $services = Service::all();
+        return view('dashboard.portfolio.edit', compact('project', 'services'));
+    }
+
+    public function portfolioUpdate(Request $request, Portfolio $project)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'service_id' => 'required|exists:services,id',
+            'project_url' => 'nullable|url',
+            'client_name' => 'nullable|string|max:255',
+            'image_file' => 'nullable|image|max:4096',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            if ($project->image) Storage::disk('public')->delete($project->image);
+            $validated['image'] = $request->file('image_file')->store('portfolio', 'public');
+        }
+
+        $project->update($validated);
+
+        return redirect()->route('dashboard.portfolio')->with('success', 'Project updated successfully!');
     }
 
     public function events()

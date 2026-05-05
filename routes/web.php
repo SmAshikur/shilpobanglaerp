@@ -23,11 +23,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/services', [DashboardController::class, 'services'])->name('dashboard.services');
     Route::get('/dashboard/services/create', [DashboardController::class, 'servicesCreate'])->name('dashboard.services.create');
     Route::post('/dashboard/services', [DashboardController::class, 'serviceStore']);
+    Route::get('/dashboard/services/{service}/edit', [DashboardController::class, 'serviceEdit'])->name('dashboard.services.edit');
+    Route::put('/dashboard/services/{service}', [DashboardController::class, 'serviceUpdate'])->name('dashboard.services.update');
     Route::delete('/dashboard/services/{service}', [DashboardController::class, 'serviceDestroy'])->name('dashboard.services.destroy');
 
     Route::get('/dashboard/team', [DashboardController::class, 'team'])->name('dashboard.team');
     Route::get('/dashboard/team/create', [DashboardController::class, 'teamCreate'])->name('dashboard.team.create');
     Route::post('/dashboard/team', [DashboardController::class, 'teamStore']);
+    Route::get('/dashboard/team/{member}/edit', [DashboardController::class, 'teamEdit'])->name('dashboard.team.edit');
+    Route::put('/dashboard/team/{member}', [DashboardController::class, 'teamUpdate'])->name('dashboard.team.update');
     Route::delete('/dashboard/team/{member}', [DashboardController::class, 'teamDestroy'])->name('dashboard.team.destroy');
 
     Route::get('/dashboard/profile', [DashboardController::class, 'profile'])->name('dashboard.profile');
@@ -36,11 +40,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/reviews', [DashboardController::class, 'reviews'])->name('dashboard.reviews');
     Route::get('/dashboard/reviews/create', [DashboardController::class, 'reviewsCreate'])->name('dashboard.reviews.create');
     Route::post('/dashboard/reviews', [DashboardController::class, 'reviewStore']);
+    Route::get('/dashboard/reviews/{review}/edit', [DashboardController::class, 'reviewEdit'])->name('dashboard.reviews.edit');
+    Route::put('/dashboard/reviews/{review}', [DashboardController::class, 'reviewUpdate'])->name('dashboard.reviews.update');
     Route::delete('/dashboard/reviews/{review}', [DashboardController::class, 'reviewDestroy'])->name('dashboard.reviews.destroy');
 
     Route::get('/dashboard/portfolio', [DashboardController::class, 'portfolio'])->name('dashboard.portfolio');
     Route::get('/dashboard/portfolio/create', [DashboardController::class, 'portfolioCreate'])->name('dashboard.portfolio.create');
     Route::post('/dashboard/portfolio', [DashboardController::class, 'portfolioStore']);
+    Route::get('/dashboard/portfolio/{project}/edit', [DashboardController::class, 'portfolioEdit'])->name('dashboard.portfolio.edit');
+    Route::put('/dashboard/portfolio/{project}', [DashboardController::class, 'portfolioUpdate'])->name('dashboard.portfolio.update');
     Route::delete('/dashboard/portfolio/{project}', [DashboardController::class, 'portfolioDestroy'])->name('dashboard.portfolio.destroy');
 
     Route::get('/dashboard/events', [DashboardController::class, 'events'])->name('dashboard.events');
