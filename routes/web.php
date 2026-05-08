@@ -134,9 +134,19 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/clients/{client}', [App\Http\Controllers\CRMController::class, 'clientDestroy'])->name('clients.destroy');
             Route::get('/leads', [App\Http\Controllers\CRMController::class, 'leads'])->name('leads');
             Route::post('/leads', [App\Http\Controllers\CRMController::class, 'leadStore'])->name('leads.store');
+            Route::get('/leads/{lead}/edit', [App\Http\Controllers\CRMController::class, 'leadEdit'])->name('leads.edit');
+            Route::put('/leads/{lead}', [App\Http\Controllers\CRMController::class, 'leadUpdate'])->name('leads.update');
+            Route::delete('/leads/{lead}', [App\Http\Controllers\CRMController::class, 'leadDestroy'])->name('leads.destroy');
+            Route::post('/leads/{lead}/update-stage', [App\Http\Controllers\CRMController::class, 'leadUpdateStage'])->name('leads.update-stage');
+            Route::post('/leads/{lead}/convert', [App\Http\Controllers\CRMController::class, 'leadConvertToClient'])->name('leads.convert');
             Route::get('/pipeline', [App\Http\Controllers\CRMController::class, 'pipeline'])->name('pipeline');
             Route::get('/activities', [App\Http\Controllers\CRMController::class, 'activities'])->name('activities');
             Route::get('/invoices', [App\Http\Controllers\CRMController::class, 'invoices'])->name('invoices');
+            Route::get('/invoices/create', [App\Http\Controllers\CRMController::class, 'invoiceCreate'])->name('invoices.create');
+            Route::post('/invoices', [App\Http\Controllers\CRMController::class, 'invoiceStore'])->name('invoices.store');
+            Route::get('/invoices/{invoice}/edit', [App\Http\Controllers\CRMController::class, 'invoiceEdit'])->name('invoices.edit');
+            Route::put('/invoices/{invoice}', [App\Http\Controllers\CRMController::class, 'invoiceUpdate'])->name('invoices.update');
+            Route::delete('/invoices/{invoice}', [App\Http\Controllers\CRMController::class, 'invoiceDestroy'])->name('invoices.destroy');
             Route::get('/reports', [App\Http\Controllers\CRMController::class, 'reports'])->name('crm.reports');
             
             // Accounts
