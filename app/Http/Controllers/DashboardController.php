@@ -19,6 +19,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->role === 'employee') {
+            return redirect()->route('employee.dashboard');
+        }
         $contactCount = ContactSubmission::count();
         $serviceCount = Service::count();
         $teamCount = TeamMember::count();
@@ -32,7 +35,7 @@ class DashboardController extends Controller
 
     public function services()
     {
-        $services = Service::latest()->get();
+        $services = Service::latest()->paginate(10);
         return view('dashboard.services.index', compact('services'));
     }
 
@@ -47,6 +50,7 @@ class DashboardController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'icon' => 'nullable|string|max:255',
+            'website_url' => 'nullable|url|max:255',
             'image_file' => 'nullable|image|max:2048',
         ]);
 
@@ -54,9 +58,18 @@ class DashboardController extends Controller
             $validated['image'] = $request->file('image_file')->store('services', 'public');
         }
 
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
         Service::create($validated);
 
         return back()->with('success', 'Service added successfully!');
+    }
+
+    public function serviceShow(Service $service)
+    {
+        $service->load('extraDetails');
+        return view('dashboard.services.show', compact('service'));
     }
 
     public function serviceDestroy(Service $service)
@@ -77,6 +90,7 @@ class DashboardController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'icon' => 'nullable|string|max:255',
+            'website_url' => 'nullable|url|max:255',
             'image_file' => 'nullable|image|max:2048',
         ]);
 
@@ -85,6 +99,9 @@ class DashboardController extends Controller
             $validated['image'] = $request->file('image_file')->store('services', 'public');
         }
 
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
         $service->update($validated);
 
         return redirect()->route('dashboard.services')->with('success', 'Service updated successfully!');
@@ -92,7 +109,7 @@ class DashboardController extends Controller
     
     public function team()
     {
-        $team = TeamMember::latest()->get();
+        $team = TeamMember::latest()->paginate(10);
         return view('dashboard.team.index', compact('team'));
     }
 
@@ -126,9 +143,17 @@ class DashboardController extends Controller
             'facebook_url' => $request->facebook_url,
             'linkedin_url' => $request->linkedin_url,
             'twitter_url' => $request->twitter_url,
+            'is_active' => $request->has('is_active'),
+            'is_featured' => $request->has('is_featured'),
         ]);
 
         return back()->with('success', 'Team member added successfully.');
+    }
+
+    public function teamShow(TeamMember $member)
+    {
+        $member->load('extraDetails');
+        return view('dashboard.team.show', compact('member'));
     }
 
     public function teamDestroy(TeamMember $member)
@@ -162,6 +187,9 @@ class DashboardController extends Controller
             $data['image'] = $request->file('image_file')->store('team', 'public');
         }
 
+        $data['is_active'] = $request->has('is_active');
+        $data['is_featured'] = $request->has('is_featured');
+
         $member->update($data);
 
         return redirect()->route('dashboard.team')->with('success', 'Team member updated successfully.');
@@ -169,12 +197,18 @@ class DashboardController extends Controller
 
     public function profile()
     {
+        if (auth()->user()->role === 'employee') {
+            return redirect()->route('employee.profile');
+        }
         $profile = ProfileInfo::first();
         return view('dashboard.profile', compact('profile'));
     }
 
     public function profileUpdate(Request $request)
     {
+        if (auth()->user()->role === 'employee') {
+            return redirect()->route('employee.profile');
+        }
         $profile = ProfileInfo::first();
         
         $validated = $request->validate([
@@ -260,7 +294,7 @@ class DashboardController extends Controller
 
     public function reviews()
     {
-        $reviews = Review::latest()->get();
+        $reviews = Review::latest()->paginate(10);
         return view('dashboard.reviews.index', compact('reviews'));
     }
 
@@ -282,6 +316,9 @@ class DashboardController extends Controller
         if ($request->hasFile('image_file')) {
             $validated['client_image'] = $request->file('image_file')->store('reviews', 'public');
         }
+
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
 
         Review::create($validated);
 
@@ -315,6 +352,9 @@ class DashboardController extends Controller
             $validated['client_image'] = $request->file('image_file')->store('reviews', 'public');
         }
 
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
         $review->update($validated);
 
         return redirect()->route('dashboard.reviews')->with('success', 'Review updated successfully!');
@@ -322,7 +362,7 @@ class DashboardController extends Controller
 
     public function portfolio()
     {
-        $portfolios = Portfolio::latest()->with('service')->get();
+        $portfolios = Portfolio::latest()->with('service')->paginate(10);
         $services = Service::all();
         return view('dashboard.portfolio.index', compact('portfolios', 'services'));
     }
@@ -348,9 +388,18 @@ class DashboardController extends Controller
             $validated['image'] = $request->file('image_file')->store('portfolio', 'public');
         }
 
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
         Portfolio::create($validated);
 
         return back()->with('success', 'Project added to portfolio!');
+    }
+
+    public function portfolioShow(Portfolio $project)
+    {
+        $project->load(['service', 'extraDetails']);
+        return view('dashboard.portfolio.show', compact('project'));
     }
 
     public function portfolioDestroy(Portfolio $project)
@@ -382,6 +431,9 @@ class DashboardController extends Controller
             $validated['image'] = $request->file('image_file')->store('portfolio', 'public');
         }
 
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
         $project->update($validated);
 
         return redirect()->route('dashboard.portfolio')->with('success', 'Project updated successfully!');
@@ -389,7 +441,7 @@ class DashboardController extends Controller
 
     public function events()
     {
-        $events = Event::latest()->get();
+        $events = Event::latest()->paginate(10);
         return view('dashboard.events.index', compact('events'));
     }
 
@@ -417,9 +469,39 @@ class DashboardController extends Controller
             $validated['thumbnail'] = $request->file('thumbnail_file')->store('events', 'public');
         }
 
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
         Event::create($validated);
 
         return back()->with('success', 'Event created! You can now add media into it.');
+    }
+
+    public function eventEdit(Event $event)
+    {
+        return view('dashboard.events.edit', compact('event'));
+    }
+
+    public function eventUpdate(Request $request, Event $event)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'event_date' => 'nullable|date',
+            'thumbnail_file' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('thumbnail_file')) {
+            if ($event->thumbnail) Storage::disk('public')->delete($event->thumbnail);
+            $validated['thumbnail'] = $request->file('thumbnail_file')->store('events', 'public');
+        }
+
+        $validated['is_active'] = $request->has('is_active');
+        $validated['is_featured'] = $request->has('is_featured');
+
+        $event->update($validated);
+
+        return redirect()->route('dashboard.events')->with('success', 'Event updated successfully!');
     }
 
     public function eventDestroy(Event $event)
@@ -518,6 +600,10 @@ class DashboardController extends Controller
         $request->validate([
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'google_map_url' => 'nullable|string',
         ]);
 
         $setting->update([
@@ -555,8 +641,62 @@ class DashboardController extends Controller
                 'stat_hours' => $request->stat_hours,
                 'stat_workers' => $request->stat_workers,
             ]);
+        } elseif ($key === 'header') {
+            $profile->update([
+                'topbar_address' => $request->topbar_address,
+                'topbar_phone' => $request->topbar_phone,
+                'show_topbar_contact' => $request->has('show_topbar_contact'),
+                'show_topbar_social' => $request->has('show_topbar_social'),
+            ]);
+        } elseif ($key === 'contact') {
+            $profile->update([
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'google_map_url' => $request->google_map_url,
+            ]);
         }
 
+
         return back()->with('success', ucfirst($key) . ' section content updated!');
+    }
+
+    public function extraDetailStore(Request $request)
+    {
+        $request->validate([
+            'detailable_id' => 'required|integer',
+            'detailable_type' => 'required|string',
+            'title' => 'nullable|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $modelClass = "App\\Models\\" . $request->detailable_type;
+        $model = $modelClass::findOrFail($request->detailable_id);
+
+        $model->extraDetails()->create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'sort_order' => $model->extraDetails()->count() + 1
+        ]);
+
+        return back()->with('success', 'Detail added successfully!');
+    }
+
+    public function extraDetailUpdate(Request $request, \App\Models\ExtraDetail $detail)
+    {
+        $request->validate([
+            'title' => 'nullable|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $detail->update($request->only('title', 'description'));
+
+        return back()->with('success', 'Detail updated successfully!');
+    }
+
+    public function extraDetailDestroy(\App\Models\ExtraDetail $detail)
+    {
+        $detail->delete();
+        return back()->with('success', 'Detail removed successfully!');
     }
 }

@@ -40,12 +40,40 @@
                         @endif
                     </div>
                     
-                    <h2 class="text-3xl lg:text-4xl font-bold text-slate-800 mb-6">{{ $service->title }}</h2>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-slate-800">{{ $service->title }}</h2>
+                        @if($service->website_url)
+                            <a href="{{ $service->website_url }}" target="_blank" class="inline-flex items-center gap-2 px-8 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 00-2 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                Visit Live Website
+                            </a>
+                        @endif
+                    </div>
                     
-                    <div class="prose prose-lg text-slate-600 max-w-none">
+                    <div class="prose prose-lg text-slate-600 max-w-none mb-12">
                         <!-- We use nl2br to preserve line breaks from the textarea -->
                         <p>{!! nl2br(e($service->description)) !!}</p>
                     </div>
+
+                    @if($service->extraDetails->count() > 0)
+                    <div class="space-y-10">
+                        @foreach($service->extraDetails as $detail)
+                        <div class="group">
+                            @if($detail->title)
+                            <h3 class="text-2xl font-black text-slate-800 mb-4 flex items-center gap-3">
+                                <span class="w-8 h-1 bg-blue-600 rounded-full transition-all group-hover:w-16"></span>
+                                {{ $detail->title }}
+                            </h3>
+                            @endif
+                            <div class="bg-white p-8 rounded-3xl border border-slate-100 group-hover:shadow-2xl group-hover:shadow-blue-100/50 transition-all duration-500">
+                                <p class="text-slate-600 leading-relaxed">
+                                    {!! nl2br(e($detail->description)) !!}
+                                </p>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
 
                 <!-- Sidebar -->
@@ -107,7 +135,15 @@
                     </div>
                     <h4 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition">{{ $s->title }}</h4>
                     <p class="text-slate-600 text-sm mb-4">{{ Str::limit($s->description, 80) }}</p>
-                    <a href="{{ route('service.details', $s->id) }}" class="text-blue-600 font-semibold text-sm hover:underline flex items-center gap-1">Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+                    <div class="flex items-center justify-between">
+                        <a href="{{ route('service.details', $s->id) }}" class="text-blue-600 font-semibold text-sm hover:underline flex items-center gap-1">Details <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+                        @if($s->website_url)
+                            <a href="{{ $s->website_url }}" target="_blank" class="text-xs font-bold text-slate-400 hover:text-blue-600 transition flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 00-2 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                Live Site
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 @endforeach
             </div>

@@ -36,7 +36,15 @@
 
             <!-- Centered Map -->
             <div class="mb-20 max-w-5xl mx-auto h-[450px] bg-slate-100 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white relative group">
-                <iframe class="w-full h-full grayscale-[0.5] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.9024424301355!2d90.3912033!3d23.7508665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8bd55555555%3A0x1234567890abcdef!2sDhaka!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                @if($profile->google_map_url)
+                    @if(str_contains($profile->google_map_url, '<iframe'))
+                        {!! $profile->google_map_url !!}
+                    @else
+                        <iframe class="w-full h-full grayscale-[0.5] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" src="{{ $profile->google_map_url }}" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    @endif
+                @else
+                    <iframe class="w-full h-full grayscale-[0.5] group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.9024424301355!2d90.3912033!3d23.7508665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8bd55555555%3A0x1234567890abcdef!2sDhaka!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                @endif
                 <div class="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]"></div>
             </div>
 

@@ -67,16 +67,26 @@
                         </div>
                     </div>
 
-                    <div class="prose prose-lg text-slate-600 max-w-none">
-                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Professional Overview</h3>
-                        @if($member->bio)
-                            <p>{!! nl2br(e($member->bio)) !!}</p>
-                        @else
-                            <p>
-                                <strong>{{ $member->name }}</strong> is an integral part of our team, serving as a dedicated <strong>{{ $member->position }}</strong>. With a wealth of experience and a passion for excellence, {{ $member->name }} consistently drives innovation and results within the organization.
-                            </p>
                         @endif
                     </div>
+
+                    @if($member->extraDetails->count() > 0)
+                    <div class="mt-12 grid md:grid-cols-2 gap-8">
+                        @foreach($member->extraDetails as $detail)
+                        <div class="group bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-blue-100/50 transition-all duration-500">
+                            @if($detail->title)
+                            <h4 class="text-xl font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                <span class="w-2 h-6 bg-blue-600 rounded-full transition-all group-hover:h-8"></span>
+                                {{ $detail->title }}
+                            </h4>
+                            @endif
+                            <p class="text-slate-600 leading-relaxed text-sm italic">
+                                {!! nl2br(e($detail->description)) !!}
+                            </p>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

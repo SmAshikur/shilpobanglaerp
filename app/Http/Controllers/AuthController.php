@@ -21,6 +21,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
+            if ($user->role === 'employee') {
+                return redirect()->intended('/dashboard/erp/employees');
+            }
             return redirect()->intended('dashboard');
         }
 

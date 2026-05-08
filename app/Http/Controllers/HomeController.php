@@ -18,11 +18,11 @@ class HomeController extends Controller
         $profile = ProfileInfo::first();
         $sectionSettings = SectionSetting::all()->keyBy('key');
         
-        $services = ($sectionSettings->get('services')?->is_visible ?? true) ? Service::where('is_active', true)->get() : collect();
-        $team = ($sectionSettings->get('team')?->is_visible ?? true) ? TeamMember::where('is_active', true)->get() : collect();
-        $reviews = ($sectionSettings->get('reviews')?->is_visible ?? true) ? Review::where('is_active', true)->get() : collect();
-        $portfolios = ($sectionSettings->get('portfolio')?->is_visible ?? true) ? Portfolio::where('is_active', true)->with('service')->get() : collect();
-        $events = ($sectionSettings->get('events')?->is_visible ?? true) ? Event::where('is_active', true)->with('media')->latest()->get() : collect();
+        $services = ($sectionSettings->get('services')?->is_visible ?? true) ? Service::where('is_active', true)->where('is_featured', true)->get() : collect();
+        $team = ($sectionSettings->get('team')?->is_visible ?? true) ? TeamMember::where('is_active', true)->where('is_featured', true)->get() : collect();
+        $reviews = ($sectionSettings->get('reviews')?->is_visible ?? true) ? Review::where('is_active', true)->where('is_featured', true)->get() : collect();
+        $portfolios = ($sectionSettings->get('portfolio')?->is_visible ?? true) ? Portfolio::where('is_active', true)->where('is_featured', true)->with('service')->get() : collect();
+        $events = ($sectionSettings->get('events')?->is_visible ?? true) ? Event::where('is_active', true)->where('is_featured', true)->with('media')->latest()->get() : collect();
         
         return view('welcome', compact('profile', 'services', 'team', 'reviews', 'portfolios', 'events', 'sectionSettings'));
     }
@@ -38,7 +38,7 @@ class HomeController extends Controller
     public function serviceDetails($id)
     {
         $profile = ProfileInfo::first();
-        $service = Service::findOrFail($id);
+        $service = Service::where('is_active', true)->findOrFail($id);
         $services = Service::where('is_active', true)->get(); // For footer links
         $otherServices = Service::where('is_active', true)->where('id', '!=', $id)->take(3)->get(); // For bottom cards
         return view('service-details', compact('profile', 'service', 'services', 'otherServices'));
@@ -47,7 +47,7 @@ class HomeController extends Controller
     public function teamDetails($id)
     {
         $profile = ProfileInfo::first();
-        $member = TeamMember::findOrFail($id);
+        $member = TeamMember::where('is_active', true)->findOrFail($id);
         $services = Service::where('is_active', true)->get();
         $otherMembers = TeamMember::where('is_active', true)->where('id', '!=', $id)->take(4)->get();
         return view('team-details', compact('profile', 'member', 'services', 'otherMembers'));
@@ -56,7 +56,7 @@ class HomeController extends Controller
     public function portfolioDetails($id)
     {
         $profile = ProfileInfo::first();
-        $project = Portfolio::with('service')->findOrFail($id);
+        $project = Portfolio::where('is_active', true)->with('service')->findOrFail($id);
         $services = Service::where('is_active', true)->get();
         $relatedProjects = Portfolio::where('is_active', true)->where('service_id', $project->service_id)->where('id', '!=', $id)->take(3)->get();
         return view('portfolio-details', compact('profile', 'project', 'services', 'relatedProjects'));
@@ -65,7 +65,7 @@ class HomeController extends Controller
     public function eventDetails($id)
     {
         $profile = ProfileInfo::first();
-        $event = Event::with('media')->findOrFail($id);
+        $event = Event::where('is_active', true)->with('media')->findOrFail($id);
         $services = Service::where('is_active', true)->get();
         $otherEvents = Event::where('is_active', true)->where('id', '!=', $id)->latest()->take(3)->get();
         return view('event-details', compact('profile', 'event', 'services', 'otherEvents'));

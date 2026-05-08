@@ -10,10 +10,16 @@
             <h3 class="text-lg font-bold text-slate-800">Event Management</h3>
             <p class="text-sm text-slate-500">Organize and showcase your business events and highlights</p>
         </div>
-        <a href="{{ route('dashboard.events.create') }}" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0h-3m-9 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            Create New Event
-        </a>
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('dashboard.section-settings', 'events') }}" class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-200 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                Event Settings
+            </a>
+            <a href="{{ route('dashboard.events.create') }}" class="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0h-3m-9 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                Create New Event
+            </a>
+        </div>
     </div>
 
     <!-- Events List -->
@@ -28,14 +34,17 @@
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 00-2 2z" /></svg>
                     </div>
                 @endif
-                <div class="absolute top-4 right-4">
-                    <form action="{{ route('dashboard.events.destroy', $event) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="w-8 h-8 bg-white/90 backdrop-blur text-rose-500 rounded-lg flex items-center justify-center shadow-sm hover:bg-rose-500 hover:text-white transition" onclick="return confirm('Delete event and all its media?')">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                    </form>
+
+                <!-- Status Badges Overlay -->
+                <div class="absolute top-4 left-4 flex gap-2">
+                    @if($event->is_active)
+                        <span class="px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest bg-emerald-500/90 backdrop-blur text-white shadow-lg">Active</span>
+                    @else
+                        <span class="px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest bg-slate-500/90 backdrop-blur text-white shadow-lg">Inactive</span>
+                    @endif
+                    @if($event->is_featured)
+                        <span class="px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest bg-amber-500/90 backdrop-blur text-white shadow-lg">Featured</span>
+                    @endif
                 </div>
             </div>
             <div class="p-8">
@@ -48,10 +57,22 @@
                 <h4 class="text-xl font-bold text-slate-800 mb-2 truncate">{{ $event->title }}</h4>
                 <p class="text-sm text-slate-500 line-clamp-2 mb-6">{{ $event->description }}</p>
                 
-                <a href="{{ route('dashboard.events.show', $event) }}" class="flex items-center justify-center gap-2 w-full py-3 bg-slate-50 text-slate-700 font-bold text-sm rounded-xl hover:bg-indigo-600 hover:text-white transition-all duration-300">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                    Manage Gallery
-                </a>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('dashboard.events.show', $event) }}" class="flex items-center justify-center gap-2 flex-1 py-3 bg-slate-50 text-slate-700 font-bold text-sm rounded-xl hover:bg-indigo-600 hover:text-white transition-all duration-300" title="View & Manage Gallery">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        View / Gallery
+                    </a>
+                    <a href="{{ route('dashboard.events.edit', $event) }}" class="p-3 bg-slate-50 text-slate-600 rounded-xl hover:bg-amber-500 hover:text-white transition-all duration-300" title="Edit Event">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                    </a>
+                    <form action="{{ route('dashboard.events.destroy', $event) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="p-3 bg-slate-50 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all duration-300" onclick="return confirm('Delete event and all its media?')" title="Delete Event">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
         @empty
@@ -65,5 +86,11 @@
         </div>
         @endforelse
     </div>
+
+    @if($events->hasPages())
+        <div class="mt-8 bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
+            {{ $events->links() }}
+        </div>
+    @endif
 </div>
 @endsection

@@ -40,10 +40,30 @@
                         @endif
                     </div>
 
-                    <div class="prose prose-lg text-slate-600 max-w-none">
+                    <div class="prose prose-lg text-slate-600 max-w-none mb-12">
                         <h2 class="text-3xl font-bold text-slate-800 mb-6">{{ $project->title }}</h2>
                         <p>{!! nl2br(e($project->description)) !!}</p>
                     </div>
+
+                    @if($project->extraDetails->count() > 0)
+                    <div class="space-y-12 mb-12">
+                        @foreach($project->extraDetails as $detail)
+                        <div class="group">
+                            @if($detail->title)
+                            <h3 class="text-2xl font-black text-slate-800 mb-4 flex items-center gap-3">
+                                <span class="w-8 h-1 bg-blue-600 rounded-full transition-all group-hover:w-16"></span>
+                                {{ $detail->title }}
+                            </h3>
+                            @endif
+                            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 group-hover:bg-white group-hover:shadow-xl group-hover:shadow-blue-100/50 transition-all duration-500">
+                                <p class="text-slate-600 leading-relaxed italic">
+                                    {!! nl2br(e($detail->description)) !!}
+                                </p>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
 
                 <!-- Right: Project Information Sidebar -->

@@ -1,42 +1,77 @@
 @extends('layouts.dashboard')
 
-@section('header', 'Manage Event Media')
+@section('header', 'Event Details & Media')
 
 @section('content')
 <div class="space-y-10">
     <!-- Back Link -->
-    <div class="mb-2">
+    <div class="flex items-center justify-between mb-2">
         <a href="{{ route('dashboard.events') }}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             Back to Events
         </a>
+        <a href="{{ route('dashboard.events.edit', $event) }}" class="px-6 py-2.5 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-lg shadow-amber-200 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+            Edit Event
+        </a>
     </div>
 
-    <!-- Event Info Header -->
-    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col md:flex-row gap-8 items-center">
-        <div class="w-48 h-32 rounded-2xl overflow-hidden bg-slate-100 shrink-0 shadow-sm border border-slate-50">
-            @if($event->thumbnail)
-                <img src="{{ asset('storage/'.$event->thumbnail) }}" class="w-full h-full object-cover">
-            @else
-                <div class="w-full h-full flex items-center justify-center text-slate-300"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 00-2 2z" /></svg></div>
-            @endif
-        </div>
-        <div class="flex-1 text-center md:text-left">
-            <h2 class="text-3xl font-bold text-slate-800">{{ $event->title }}</h2>
-            <p class="text-slate-500 mt-2 max-w-2xl">{{ $event->description }}</p>
-            <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
-                <span class="flex items-center gap-2 text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    {{ $event->event_date ? \Carbon\Carbon::parse($event->event_date)->format('M d, Y') : 'Ongoing' }}
-                </span>
-                <span class="flex items-center gap-2 text-xs font-bold text-indigo-500 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 00-2 2z" /></svg>
-                    {{ $event->media->count() }} Media Items
-                </span>
+    <!-- Event Detailed Info -->
+    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-indigo-100/50 overflow-hidden">
+        <div class="grid lg:grid-cols-12">
+            <!-- Event Thumbnail -->
+            <div class="lg:col-span-4 bg-slate-100 relative">
+                @if($event->thumbnail)
+                    <img src="{{ asset('storage/'.$event->thumbnail) }}" class="w-full h-full object-cover min-h-[300px]">
+                @else
+                    <div class="w-full h-full flex flex-col items-center justify-center text-slate-300 min-h-[300px]">
+                        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                @endif
+                <div class="absolute top-6 left-6 flex gap-2">
+                    @if($event->is_active)
+                        <span class="px-3 py-1 bg-emerald-500 text-white text-[9px] font-black uppercase rounded-lg">Active</span>
+                    @else
+                        <span class="px-3 py-1 bg-slate-400 text-white text-[9px] font-black uppercase rounded-lg">Inactive</span>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Event Details -->
+            <div class="lg:col-span-8 p-10 lg:p-14">
+                <div class="mb-6">
+                    <h3 class="text-3xl font-black text-slate-800 tracking-tight mb-2">{{ $event->title }}</h3>
+                    @if($event->event_date)
+                        <div class="flex items-center gap-2 text-indigo-600 font-bold text-sm uppercase tracking-widest">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            {{ \Carbon\Carbon::parse($event->event_date)->format('d F, Y') }}
+                        </div>
+                    @endif
+                </div>
+                <div class="prose prose-slate prose-lg max-w-none mb-8">
+                    <p class="text-slate-600 leading-relaxed italic">
+                        {!! nl2br(e($event->description)) !!}
+                    </p>
+                </div>
+                @include('dashboard.partials.extra-details', ['model' => $event])
+
+                <div class="flex gap-4">
+                    <div class="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100">
+                        <span class="block text-[8px] font-black text-slate-400 uppercase tracking-widest">Media Items</span>
+                        <span class="text-lg font-black text-slate-700">{{ $event->media->count() }} Items</span>
+                    </div>
+                    @if($event->is_featured)
+                        <div class="px-4 py-2 bg-amber-50 rounded-xl border border-amber-100">
+                            <span class="block text-[8px] font-black text-amber-500 uppercase tracking-widest">Featured</span>
+                            <span class="text-lg font-black text-amber-600">Yes</span>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Media Management Section -->
     <div class="grid lg:grid-cols-3 gap-10">
         <!-- Add Media Form -->
         <div class="lg:col-span-1">

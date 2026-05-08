@@ -39,7 +39,19 @@
                         <label class="block text-sm font-bold text-slate-700 ml-1">Icon Name (FontAwesome/SVG)</label>
                         <input type="text" name="icon" value="{{ $service->icon }}" placeholder="e.g. globe" 
                                class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white focus:outline-none transition-all duration-300">
-                        <p class="text-[10px] text-slate-400 mt-1 ml-1">Used for visual identification in some layouts</p>
+                        <p class="text-[10px] text-slate-400 mt-1 ml-1">Used for visual identification</p>
+                    </div>
+
+                    <div class="space-y-2 md:col-span-2">
+                        <label class="block text-sm font-bold text-slate-700 ml-1">Website URL (Live Preview)</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                            </div>
+                            <input type="url" name="website_url" value="{{ $service->website_url }}" placeholder="https://example.com" 
+                                   class="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white focus:outline-none transition-all duration-300">
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-1 ml-1">Add the live link of the website you want to showcase</p>
                     </div>
                 </div>
 
@@ -75,6 +87,29 @@
                     <textarea name="description" rows="6" required placeholder="Describe what this service entails..." 
                               class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white focus:outline-none transition-all duration-300 resize-none">{{ $service->description }}</textarea>
                     @error('description') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 border-t border-slate-100 pt-8 mt-8">
+                    <label class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
+                        <div>
+                            <span class="block text-sm font-bold text-slate-700">Active Status</span>
+                            <span class="block text-xs text-slate-500 mt-1">Show this item on the frontend</span>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="is_active" value="1" {{ $service->is_active ? 'checked' : '' }} class="peer sr-only">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        </div>
+                    </label>
+                    <label class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
+                        <div>
+                            <span class="block text-sm font-bold text-slate-700">Featured</span>
+                            <span class="block text-xs text-slate-500 mt-1">Show this item on the landing page</span>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="is_featured" value="1" {{ $service->is_featured ? 'checked' : '' }} class="peer sr-only">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        </div>
+                    </label>
                 </div>
 
                 <div class="pt-4">

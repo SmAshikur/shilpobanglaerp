@@ -26,5 +26,13 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        // Share Mother Company & Profile globally
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            $motherCompany = \App\Models\Company::where('is_mother', true)->first();
+            $profileInfo = \App\Models\ProfileInfo::first();
+            $view->with('motherCompany', $motherCompany);
+            $view->with('profileInfo', $profileInfo);
+        });
     }
 }

@@ -76,6 +76,29 @@
                               class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white focus:outline-none transition-all duration-300 resize-none"></textarea>
                 </div>
 
+                <div class="grid md:grid-cols-2 gap-8 border-t border-slate-100 pt-8 mt-8">
+                    <label class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
+                        <div>
+                            <span class="block text-sm font-bold text-slate-700">Active Status</span>
+                            <span class="block text-xs text-slate-500 mt-1">Show this item on the frontend</span>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="is_active" value="1" checked class="peer sr-only">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        </div>
+                    </label>
+                    <label class="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-100 transition">
+                        <div>
+                            <span class="block text-sm font-bold text-slate-700">Featured</span>
+                            <span class="block text-xs text-slate-500 mt-1">Show this item on the landing page</span>
+                        </div>
+                        <div class="relative">
+                            <input type="checkbox" name="is_featured" value="1" class="peer sr-only">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        </div>
+                    </label>
+                </div>
+
                 <div class="pt-4 text-right">
                     <button type="submit" class="w-full py-5 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition-all duration-300 shadow-xl shadow-indigo-200 transform hover:-translate-y-1">
                         Submit Review

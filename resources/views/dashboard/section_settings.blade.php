@@ -107,6 +107,78 @@
                     </div>
                 </div>
 
+                <!-- Header / Topbar Specific Fields -->
+                @elseif($setting->key === 'header')
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-100 dark:border-white/5">
+                        <div class="flex items-center justify-between mb-6">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-100">Show Contact Info</h4>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="show_topbar_contact" value="1" {{ $profile->show_topbar_contact ? 'checked' : '' }} class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                            </label>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Topbar Address</label>
+                                <input type="text" name="topbar_address" value="{{ $profile->topbar_address }}" placeholder="e.g. 123 Street, New York" class="w-full px-5 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none dark:text-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Topbar Phone</label>
+                                <input type="text" name="topbar_phone" value="{{ $profile->topbar_phone }}" placeholder="e.g. +1 234 567 890" class="w-full px-5 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none dark:text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-100 dark:border-white/5">
+                        <div class="flex items-center justify-between mb-6">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-100">Show Social Icons</h4>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="show_topbar_social" value="1" {{ $profile->show_topbar_social ? 'checked' : '' }} class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                            </label>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                            Toggle visibility of social media links in the top header. Links are managed in the overall profile settings.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Contact Section Specific Fields -->
+                @elseif($setting->key === 'contact')
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 mb-2">Section Subtitle</label>
+                    <textarea name="description" rows="3" class="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 dark:focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-300 resize-none dark:text-slate-100">{{ $setting->description }}</textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 mb-2">Office Address</label>
+                        <input type="text" name="address" value="{{ $profile->address }}" class="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 dark:focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-300 dark:text-slate-100">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 mb-2">Primary Phone</label>
+                        <input type="text" name="phone" value="{{ $profile->phone }}" class="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 dark:focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-300 dark:text-slate-100">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 ml-1 mb-2">Primary Email</label>
+                        <input type="email" name="email" value="{{ $profile->email }}" class="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 dark:focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-300 dark:text-slate-100">
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center justify-between ml-1 mb-2">
+                        <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Google Map Embed (iframe src or URL)</label>
+                        <a href="https://www.google.com/maps" target="_blank" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 00-2 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            Open Google Maps
+                        </a>
+                    </div>
+                    <textarea name="google_map_url" rows="4" placeholder="Paste the 'src' from the Google Maps iframe embed code here" 
+                              class="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 dark:focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 focus:outline-none transition-all duration-300 resize-none dark:text-slate-100 font-mono text-sm">{{ $profile->google_map_url }}</textarea>
+                    <p class="mt-2 text-xs text-slate-500 dark:text-slate-400 ml-1">
+                        <strong>Tip:</strong> Search location on Google Maps > Share > Embed a map > Copy HTML and paste it here.
+                    </p>
+                </div>
+
                 <!-- Default description field for other sections -->
                 @else
                 <div>

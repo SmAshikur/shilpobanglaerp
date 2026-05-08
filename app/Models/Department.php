@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Department extends Model
+{
+    protected $fillable = ['company_id', 'name', 'is_active'];
+
+    public function company() { return $this->belongsTo(Company::class); }
+    public function designations() { return $this->hasMany(Designation::class); }
+    public function employees() { return $this->hasMany(Employee::class); }
+}
