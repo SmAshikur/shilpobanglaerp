@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
+            $table->string('industry')->nullable();
+            $table->string('website')->nullable();
+            $table->string('status')->default('active'); // active, inactive, prospect
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

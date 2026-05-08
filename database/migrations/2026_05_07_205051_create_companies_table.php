@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
+            $table->boolean('is_mother')->default(false);
             $table->string('logo')->nullable();
             $table->string('type')->default('sister'); // mother, sister
             $table->boolean('is_active')->default(true);

@@ -16,10 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('position');
             $table->string('image')->nullable();
+            $table->text('bio')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('twitter_url')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

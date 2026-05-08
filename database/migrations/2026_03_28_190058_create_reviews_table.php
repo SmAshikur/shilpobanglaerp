@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('rating')->default(5);
             $table->string('client_image')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

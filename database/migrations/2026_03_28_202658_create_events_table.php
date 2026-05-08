@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->date('event_date')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

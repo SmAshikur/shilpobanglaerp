@@ -17,6 +17,9 @@ return new class extends Migration
             $table->date('date');
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();
+            $table->time('break_start')->nullable();
+            $table->time('break_end')->nullable();
+            $table->integer('break_minutes')->default(0);
             $table->string('status')->default('present'); // present, absent, late, leave
             $table->text('note')->nullable();
             $table->timestamps();

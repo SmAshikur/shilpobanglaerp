@@ -22,11 +22,12 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->date('joining_date')->nullable();
-            $table->decimal('basic_salary', 15, 2)->default(0);
+            $table->decimal('basic_salary', 15, 2)->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->text('address')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
