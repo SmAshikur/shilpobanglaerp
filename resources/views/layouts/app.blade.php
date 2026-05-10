@@ -59,7 +59,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                     <a href="{{ route('home') }}" class="flex items-center gap-2">
                         @if($motherCompany?->logo || ($profile->logo ?? null))
-                            <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profile->logo)) }}" class="h-10 w-auto">
+                            <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profile->logo)) }}" class="w-40 h-auto max-h-12 object-contain">
                         @else
                             <span class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{{ $motherCompany->name ?? $profile->company_name ?? 'Shilpobangla' }}<span class="text-blue-600">.</span></span>
                         @endif
@@ -147,7 +147,7 @@
                         <div class="col-span-1 lg:col-span-1">
                             <a href="{{ route('home') }}" class="flex items-center gap-2 mb-8">
                                 @if($motherCompany?->logo || ($profile->logo ?? null))
-                                    <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profile->logo)) }}" class="h-10 w-auto">
+                                    <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profile->logo)) }}" class="w-40 h-auto max-h-12 object-contain">
                                 @else
                                     <span class="text-2xl font-bold text-white tracking-tight">{{ $motherCompany->name ?? $profile->company_name ?? 'Shilpobangla' }}<span class="text-blue-500">.</span></span>
                                 @endif
