@@ -36,7 +36,10 @@
                                 <span class="text-[10px] text-slate-300 dark:text-slate-600 uppercase font-black">No Logo</span>
                             @endif
                          </div>
-                         <input type="file" name="logo_file" class="flex-1 px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl font-medium focus:outline-none focus:ring-2 focus:ring-indigo-600 transition dark:text-slate-100">
+                         <div class="flex-1">
+                             <input type="file" name="logo_file" class="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 rounded-2xl font-medium focus:outline-none focus:ring-2 focus:ring-indigo-600 transition dark:text-slate-100">
+                             <p class="text-[10px] text-slate-400 mt-2 font-medium italic">Recommended: Square (1:1 ratio), e.g., 512x512px. PNG with transparent background preferred.</p>
+                         </div>
                     </div>
                 </div>
 

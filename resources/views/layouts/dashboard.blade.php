@@ -46,9 +46,13 @@
             <!-- Sidebar Header -->
             <div class="flex items-center justify-between h-20 px-4 lg:px-6 border-b border-slate-100 dark:border-white/5 overflow-hidden relative">
                 <div class="flex items-center gap-3 w-full">
-                    <div class="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
-                        {{ substr($motherCompany->name ?? 'S', 0, 1) }}
-                    </div>
+                    @if($motherCompany?->logo || ($profileInfo->logo ?? null) || ($profile->logo ?? null))
+                        <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profileInfo->logo ?? $profile->logo)) }}" class="w-10 h-10 rounded-xl object-cover shadow-lg" :class="sidebarCollapsed ? 'mx-auto' : ''">
+                    @else
+                        <div class="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
+                            {{ substr($motherCompany->name ?? 'S', 0, 1) }}
+                        </div>
+                    @endif
                     <span class="text-xl font-bold tracking-tight text-slate-800 dark:text-white sidebar-text" :class="sidebarCollapsed ? 'lg:opacity-0 lg:w-0' : 'opacity-100 w-auto'">{{ $motherCompany->name ?? 'Admin Panel' }}</span>
                 </div>
                 <!-- Mobile Close Button -->

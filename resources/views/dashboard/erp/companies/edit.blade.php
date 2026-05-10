@@ -43,9 +43,21 @@
                     <input type="text" name="phone" value="{{ $company->phone }}" placeholder="+880..." class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-600 outline-none transition duration-500 font-medium dark:text-white">
                 </div>
 
-                <div class="space-y-2">
-                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Change Logo</label>
-                    <input type="file" name="logo_file" class="w-full px-6 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 outline-none transition duration-500 font-medium dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-black file:uppercase file:tracking-widest file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200">
+                <div class="space-y-4">
+                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Company Logo</label>
+                    <div class="flex items-center gap-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-white/5">
+                        <div class="w-20 h-20 rounded-xl bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-white/10">
+                            @if($company->logo)
+                                <img src="{{ asset('storage/'.$company->logo) }}" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-2xl font-black text-slate-200 dark:text-slate-700">{{ substr($company->name, 0, 1) }}</span>
+                            @endif
+                        </div>
+                        <div class="flex-1">
+                            <input type="file" name="logo_file" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-black file:uppercase file:tracking-widest file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200 transition-all cursor-pointer">
+                            <p class="text-[10px] text-slate-400 mt-2 font-medium">Recommended: Square image, max 2MB (PNG, JPG)</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="md:col-span-2 space-y-2">

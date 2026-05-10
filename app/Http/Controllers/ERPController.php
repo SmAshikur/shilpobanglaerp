@@ -37,18 +37,29 @@ class ERPController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'parent_id' => 'required|exists:companies,id',
+            'parent_id' => 'nullable|exists:companies,id',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'logo_file' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->all();
-        $data['type'] = 'sister';
+        $data = $request->except('logo_file');
+        
+        if ($request->filled('parent_id')) {
+            $data['type'] = 'sister';
+            $data['is_mother'] = false;
+        } else {
+            $data['type'] = 'mother';
+            $data['is_mother'] = true;
+        }
         
         if ($request->hasFile('logo_file')) {
             $data['logo'] = $request->file('logo_file')->store('companies', 'public');
         }
 
         Company::create($data);
-        return redirect()->route('dashboard.erp.companies')->with('success', 'Sister Company created!');
+        return redirect()->route('dashboard.erp.companies')->with('success', 'Company created successfully!');
     }
 
     public function companyEdit(Company $company)
@@ -62,12 +73,28 @@ class ERPController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:companies,id',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'logo_file' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->all();
-        $data['type'] = $request->filled('parent_id') ? 'sister' : 'mother';
+        $data = $request->except(['logo_file', '_token', '_method']);
+        
+        if ($company->is_mother) {
+            $data['type'] = 'mother';
+            $data['is_mother'] = true;
+            $data['parent_id'] = null;
+        } else {
+            $data['type'] = $request->filled('parent_id') ? 'sister' : 'mother';
+            $data['is_mother'] = !$request->filled('parent_id');
+        }
 
         if ($request->hasFile('logo_file')) {
+            // Delete old logo
+            if ($company->logo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($company->logo);
+            }
             $data['logo'] = $request->file('logo_file')->store('companies', 'public');
         }
 

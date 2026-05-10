@@ -30,7 +30,15 @@
 
 
 
-                <input type="hidden" name="parent_id" value="{{ $motherCompanies->first()->id ?? '' }}">
+                <div class="space-y-2">
+                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Parent Company</label>
+                    <select name="parent_id" class="w-full px-6 py-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-600 outline-none transition duration-500 font-medium dark:text-white appearance-none">
+                        <option value="">None (Main Mother Company)</option>
+                        @foreach($motherCompanies as $mc)
+                            <option value="{{ $mc->id }}" {{ $loop->first ? 'selected' : '' }}>{{ $mc->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="space-y-2">
                     <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Official Email</label>
@@ -45,6 +53,7 @@
                 <div class="space-y-2">
                     <label class="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Company Logo</label>
                     <input type="file" name="logo_file" class="w-full px-6 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-white/5 outline-none transition duration-500 font-medium dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-black file:uppercase file:tracking-widest file:bg-indigo-100 file:text-indigo-700 hover:file:bg-indigo-200">
+                    <p class="text-[10px] text-slate-400 mt-2 font-medium">Recommended: Square (1:1 ratio), e.g., 512x512px. PNG preferred.</p>
                 </div>
 
                 <div class="md:col-span-2 space-y-2">

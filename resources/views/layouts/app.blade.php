@@ -58,10 +58,11 @@
             <header :class="scrolled ? 'bg-white/90 dark:bg-slate-950/90 shadow-md py-3 backdrop-blur-md' : 'bg-white dark:bg-slate-950 py-5'" class="sticky top-0 z-50 transition-all duration-300 w-full border-b border-gray-100 dark:border-white/5">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                     <a href="{{ route('home') }}" class="flex items-center gap-2">
-                        @if($motherCompany->logo ?? $profile->logo)
-                            <img src="{{ asset('storage/'.($motherCompany->logo ?? $profile->logo)) }}" class="h-8 w-auto">
+                        @if($motherCompany?->logo || ($profile->logo ?? null))
+                            <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profile->logo)) }}" class="h-10 w-auto">
+                        @else
+                            <span class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{{ $motherCompany->name ?? $profile->company_name ?? 'Shilpobangla' }}<span class="text-blue-600">.</span></span>
                         @endif
-                        <span class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">{{ $motherCompany->name ?? $profile->company_name ?? 'Shilpobangla' }}<span class="text-blue-600">.</span></span>
                     </a>
 
                     <nav class="hidden md:flex items-center gap-8">
@@ -145,10 +146,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                         <div class="col-span-1 lg:col-span-1">
                             <a href="{{ route('home') }}" class="flex items-center gap-2 mb-8">
-                                @if($motherCompany->logo ?? $profile->logo)
-                                    <img src="{{ asset('storage/'.($motherCompany->logo ?? $profile->logo)) }}" class="h-8 w-auto">
+                                @if($motherCompany?->logo || ($profile->logo ?? null))
+                                    <img src="{{ asset('storage/'.($motherCompany?->logo ?? $profile->logo)) }}" class="h-10 w-auto">
+                                @else
+                                    <span class="text-2xl font-bold text-white tracking-tight">{{ $motherCompany->name ?? $profile->company_name ?? 'Shilpobangla' }}<span class="text-blue-500">.</span></span>
                                 @endif
-                                <span class="text-2xl font-bold text-white tracking-tight">{{ $motherCompany->name ?? $profile->company_name ?? 'Shilpobangla' }}<span class="text-blue-500">.</span></span>
                             </a>
                             <p class="text-slate-400 leading-relaxed mb-8">{{ $profile->footer_description ?? 'Building Digital Solutions For Your Business. We are a team of talented designers making websites with modern technologies.' }}</p>
                             <div class="flex gap-4">
